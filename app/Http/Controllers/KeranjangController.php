@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class KeranjangController extends Controller
 {
+
     public function addDekorasi(Request $request)
     {
         $grandTotal = $request->input('grand_total');
@@ -108,6 +111,7 @@ class KeranjangController extends Controller
         $grandTotal = $request->input('grand_total');
         $selectedItems = $request->input('selected_items', []);
         $cart = session()->get('cart', []);
+        $customer = session()->get('customer');
 
         $itemsForCheckout = [];
         
@@ -121,9 +125,11 @@ class KeranjangController extends Controller
 
         return view('client.checkout', [
             'items' => $itemsForCheckout,
-            'grandTotal' => $grandTotal
+            'grandTotal' => $grandTotal,
+            'customer' => $customer,
         ]);
     }
+
 
 
 

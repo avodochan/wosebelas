@@ -20,9 +20,11 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PilihansayaController; 
 use App\Http\Controllers\ItemMainCourseController;
 use App\Http\Controllers\CustomerController; 
+use App\Http\Controllers\OrderController;
 use App\Models\Booking;
 use App\Models\PilihanSaya;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
@@ -41,6 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login'); // Sesuaikan dengan halaman tujuan setelah logout
+})->name('logout');
 
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin']);
 
@@ -117,11 +124,8 @@ Route::post('admin/add/itemmaincourse', [ItemMainCourseController::class,'store'
 Route::resource('pendingorder', PendingOrderController::class);
 Route::get('admin/pendingorder', [PendingOrderController::class, 'index'])->middleware(['auth', 'admin']);
 
-//ongoing order route
-Route::resource('ongoingorder', OngoingOrderController::class);
-Route::get('admin/ongoingorder', [OngoingOrderController::class, 'index'])->middleware(['auth', 'admin']);
-
-//histori order route
+//order route
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 
 //booking route
 Route::resource('/booking', BookingController::class);

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
     /**
@@ -24,7 +25,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.profile.datapribadi'); 
     }
 
     /**
@@ -32,8 +33,28 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email',
+            'no_telepon' => 'required|string|max:20',
+            'nik' => 'required|string|max:16',
+            'gender' => 'required|string',
+            'alamat' => 'required|string',
+        ]);
+
+        $customer = Customer::create([
+            'user_id' => Auth::id(),
+            'nama' => $request->input('nama'),
+            'email' => $request->input('email'),
+            'no_telepon' => $request->input('no_telepon'),
+            'nik' => $request->input('nik'),
+            'gender' => $request->input('gender'),
+            'alamat' => $request->input('alamat'),
+        ]);
+
+        return redirect('/datadiri')->with('success', 'Data diri berhasil disimpan!');
     }
+
 
     /**
      * Display the specified resource.

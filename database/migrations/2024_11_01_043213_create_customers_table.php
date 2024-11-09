@@ -10,17 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    {   
         Schema::create('customers', function (Blueprint $table) {
             $table->string('id_customer')->primary();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama');
             $table->string('email');
             $table->string('no_telepon');
             $table->string('nik');
             $table->enum('gender', ['wanita', 'pria']);    
-            $table->text('alamat');        
+            $table->text('alamat');  
             $table->timestamps();
         });
+        
     }
 
     /**
