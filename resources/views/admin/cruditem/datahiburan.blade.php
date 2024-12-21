@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Dekorasi</title>
+    <title>Data Hiburan</title>
     <link rel="shortcut icon" href="{{ asset('/assets/admin/admintl/assets/compiled/svg/favicon.svg') }}"
         type="image/x-icon">
     <link rel="shortcut icon"
@@ -38,7 +38,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Tambah Data Dokumentasi</h4>
+                                <h4 class="card-title">Tambah Data Hiburan</h4>
                                 <hr>
                             </div>
                             <div class="card-body">
@@ -50,8 +50,7 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column">Nama Hiburan</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="cth : Paket Pengantin Jawa" name="nama_paket_hiburan">
+                                                <input type="text" class="form-control" name="nama_paket_hiburan">
                                             </div>
                                         </div>
                                         
@@ -69,8 +68,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp</span>
                                                     </div>
-                                                    <input type="text" placeholder="cth : 8000000"
-                                                        class="form-control" name="harga_sewa_hiburan">
+                                                    <input type="text" class="form-control" name="harga_sewa_hiburan">
                                                 </div>
                                             </div>
                                         </div>
@@ -78,14 +76,14 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="city-column">Foto Thumbnail Hiburan</label>
-                                                <input type="file" name="fthumbnail_hiburan" accept="image/*">
+                                                <input type="file" name="fthumbnail_hiburan" accept="image/*" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="city-column">Foto Hiburan</label>
-                                                <input type="file" name="foto_hiburan[]" multiple accept="image/*">
+                                                <input type="file" name="foto_hiburan[]" multiple accept="image/*" class="form-control">
                                             </div>
                                         </div>
 
@@ -109,7 +107,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                Data Dokumentasi
+                                Data hiburan
                             </h5>
                         </div>
                         <div class="card-body">
@@ -123,94 +121,115 @@
                                     </tr>
                                 </thead>
 
-                                @forelse ($hiburan as $hibu)
+                                @forelse ($hiburan as $hiburan)
                                     <tr>
-                                        <td>{{ $hibu->id_hiburan }}</td>
-                                        <td>{{ $hibu->nama_paket_hiburan }}</td>
-                                        <td>Rp {{ $hibu->harga_sewa_hiburan }}</td>
+                                        <td>{{ $hiburan->id_hiburan }}</td>
+                                        <td>{{ $hiburan->nama_paket_hiburan }}</td>
+                                        <td>Rp {{ number_format($hiburan->harga_sewa_hiburan, 0, ',', '.') }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                                data-bs-target="#info">
-                                                <i class="bi bi-eye-fill"></i></button>
-                                            <button type="button" class="btn btn-outline-warning"
-                                                data-bs-toggle="modal" data-bs-target="#warning">
-                                                <i class="bi bi-pencil-square"></i></button>
-
-                                            {{-- detail --}}
-                                            <div class="modal fade text-left" id="info" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel130" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-info">
-                                                            <h5 class="modal-title white" id="myModalLabel130">Info
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ $hibu->foto_hiburan }}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-info ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{-- edit --}}
-                                            <div class="modal fade text-left" id="warning" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-warning">
-                                                            <h5 class="modal-title white" id="myModalLabel140">Warning
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Tart lemon drops macaroon oat cake chocolate toffee
-                                                            chocolate
-                                                            bar icing. Pudding jelly beans
-                                                            carrot cake pastry gummies cheesecake lollipop. I love
-                                                            cookie
-                                                            lollipop cake I love sweet
-                                                            gummi bears cupcake dessert.
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-warning ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $hiburan->id_hiburan }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $hiburan->id_hiburan }}">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>                                        
                                         </td>
+                                        
+                                        {{-- detail --}}
+                                        <div class="modal fade" id="detailModal{{ $hiburan->id_hiburan }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $hiburan->id_hiburan }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="detailModalLabel{{ $hiburan->id_hiburan }}">Detail {{ $hiburan->nama_paket_hiburan }}</h3>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="{{ asset('storage/' . $hiburan->thumbnail_hiburan) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail hiburan">
+                                                                <h6 class="mt-3">Foto Lainnya:</h6>
+                                                                <div class="d-flex flex-wrap">
+                                                                    @foreach ($hiburan->images as $image)
+                                                                        <img src="{{ asset('storage/' . $image->foto_hiburan) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto hiburan">
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-6">
+                                                                <h6>Harga:</h6>
+                                                                <p>{{ number_format($hiburan->harga_sewa_hiburan, 0, ',', '.') }}</p>
+                                                                <h6>Deskripsi:</h6>
+                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($hiburan->deskripsi_hiburan))) !!}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+                                        {{-- edit --}}
+                                        <div class="modal fade" id="editModal{{ $hiburan->id_hiburan }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Edit hiburan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('hiburan.update', $hiburan->id_hiburan ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="{{ asset('storage/' . $hiburan->thumbnail_hiburan) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail hiburan">
+                                                                    <div class="mt-2">
+                                                                        @foreach ($hiburan->images as $image)
+                                                                        <div class="d-flex align-items-center mb-2">
+                                                                            <img src="{{ asset('storage/' . $image->foto_hiburan) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto hiburan">
+                                                                            <input type="checkbox" name="delete_foto_hiburan[]" value="{{ $image->id }}" class="form-check-input">
+                                                                            <label class="form-check-label ms-2">Hapus</label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @isset($hiburan)
+                                                                <div class="form-group mb-3">
+                                                                    <label>Nama hiburan</label>
+                                                                    <input type="text" name="nama_paket_hiburan" class="form-control" value="{{ $hiburan->nama_paket_hiburan }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Deskripsi</label>
+                                                                    <textarea name="deskripsi_hiburan" class="form-control" rows="3">{{ $hiburan->deskripsi_hiburan }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Harga hiburan</label>
+                                                                    <input type="text" name="harga_sewa_hiburan" class="form-control" value="{{ $hiburan->harga_sewa_hiburan }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Thumbnail</label>
+                                                                    <input type="file" name="thumbnail_hiburan" class="form-control">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Foto Lainnya</label>
+                                                                    <input type="file" name="foto_hiburan[]" multiple class="form-control">
+                                                                    
+                                                                </div>
+                                                            @else
+                                                                <p>Data tidak ditemukan.</p>
+                                                            @endisset
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </tr>
                                     @empty
                                     <tr>

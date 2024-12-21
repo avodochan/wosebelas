@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dishes;
 use App\Models\DishesImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DishesController extends Controller
 {
@@ -13,7 +14,7 @@ class DishesController extends Controller
      */
     public function index()
     {
-        $dishes = Dishes::all();
+        $dishes = Dishes::with('images')->get();
         return view('admin.cruditem.datadishes', compact('dishes'));
     }
 
@@ -59,25 +60,60 @@ class DishesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Dishes $dishes)
+    public function show($id)
     {
-        return view('admin.cruditem.datadishes', compact('dishes'));
+        $dish = Dishes::with('images')->findOrFail($id);
+        return response()->json($dish);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Dishes $dishes)
+    public function edit($id)
     {
-        //
+        $selectedDish = Dishes::with('images')->findOrFail($id);
+        $dishes = Dishes::all();
+        return view('admin.cruditem.datadishes', compact('dishes', 'selectedDish'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Dishes $dishes)
+    public function update(Request $request, $id)
     {
-        //
+        $dish = Dishes::findOrFail($id);
+
+        $dish->update([
+            'nama_dishes' => $request->nama_dishes,
+            'deskripsi_dishes' => $request->deskripsi_dishes,
+        ]);
+
+        if ($request->hasFile('thumbnail_dishes')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_dishes')->store('dishes_thumbnails', 'public');
+            $dish->update(['thumbnail_dishes' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_dishes')) 
+        {
+            foreach ($request->file('foto_dishes') as $file) {
+                $fotoPath = $file->store('dishes_images', 'public');
+                DishesImage::create([
+                    'dishes_id' => $dish->id_dishes,
+                    'foto_dishes' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_dishes')) 
+        {
+            foreach ($request->delete_foto_dishes as $imageId) {
+                $image = DishesImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_dishes);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'Dishes berhasil diperbarui.');
     }
 
     /**

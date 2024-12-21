@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ItemMainCourse;
 use App\Models\Dishes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ItemMainCourseController extends Controller
 {
@@ -63,17 +65,33 @@ class ItemMainCourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ItemMainCourse $itemMainCourse)
+    public function edit($id)
     {
-        //
+        $selectedItemmaincourse = ItemMainCourse::with('images')->findOrFail($id);
+        $itemmaincourse = ItemMainCourse::all();
+        return view('admin.cruditem.dataitemmaincourse', compact('itemmaincourse', 'selectedItemmaincourse'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ItemMainCourse $itemMainCourse)
+    public function update(Request $request, $id)
     {
-        //
+        $itemmaincourse = ItemMainCourse::findOrFail($id);
+
+        $itemmaincourse->update([
+           'nama_item_maincourse' => $request->nama_item_maincourse,
+            'deskripsi_item_maincourse' => $request->deskripsi_item_maincourse,
+            'kategori_item_maincourse' => $request->kategori_item_maincourse, 
+        ]);
+
+        if ($request->hasFile('thumbnail_item_maincourse')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_item_maincourse')->store('thumbnail_item_maincourse', 'public');
+            $itemmaincourse->update(['thumbnail_item_maincourse' => $thumbnailPath]);
+        }
+        
+        return redirect()->back()->with('success', 'itemmaincourse berhasil diperbarui.');
     }
 
     /**

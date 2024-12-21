@@ -4,72 +4,158 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Customer;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public function showPendingOrders()
+    {
+        $orders = Order::where('status', 'pending')->get();
+        return view('admin.pemesanan.pendingorder', compact('orders'));
+    }
+
+    public function showConfirmedOrder()
+    {
+        $orders = Order::where('status', 'confirmed')->get();
+        return view('admin.pemesanan.confirmedorder', compact('orders'));
+    }
+
+    public function showongoingorder()
+    {
+        $orders = Order::where('status', 'ongoing')->get();
+        return view('admin.pemesanan.ongoingorder', compact('orders'));
+    }
+    
+    public function showSuccessOrder()
+    {
+        $orders = Order::where('status', 'success')->get();
+        return view('admin.pemesanan.successorder', compact('orders'));
+    }
+    
+    public function showHistori()
+    {
+        $orders = Order::all();
+        return view('admin.pemesanan.historiorder', compact('orders'));
+    }
+    
+    public function showHistoriOrder()
+    {
+        $userId = Auth::id();
+        $orders = Order::where('user_id', $userId)->get();
+        $data = [
+            'total' => Order::where('status', 'ongoing')->sum('total_biaya'),
+            'histori' => Order::where ('status', 'histori')->count(),
+            'ongoing' => Order::where ('status', 'ongoing')->count(),
+        ];
+        
+        return view('client.profile.historiorder', compact('orders', 'data'));
+    }
+    
     public function store(Request $request)
-{
-    // Validasi data form
-    $validated = $request->validate([
-        'nama' => 'required|string|max:255',
-        'email' => 'required|email',
-        'no_telepon' => 'required|string|max:20',
-        'nik' => 'required|string|max:16',
-        'gender' => 'required|string',
-        'alamat' => 'required|string',
-        'tanggal_acara' => 'required|date',
-    ]);
+    {
+        $validated = $request->validate([
+            'event_date' => 'required|date',
+            'grand_total' => 'required|numeric',
+            'banyak_tamu' => 'required|numeric'
+        ]);
 
-    // Hitung total biaya berdasarkan item yang dipesan
-    $items = session()->get('items'); // Ambil data item dari session atau sumber lain
-    $grandTotal = 0;
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'status' => 'pending',
+            'tanggal_acara' => $request->input('event_date'),
+            'total_biaya' => $request->input('grand_total'),
+            'banyak_tamu' => $request->input('banyak_tamu'),
+        ]);
 
-    if (isset($items['dekorasi'])) {
-        $grandTotal += $items['dekorasi']['harga'];
+        session()->forget('cart');
+
+        return redirect()->route('home')->with('success', 'Pesanan berhasil dibuat, silakan tunggu konfirmasi dari admin. Keranjang telah dikosongkan.');
     }
 
-    if (isset($items['dokumentasi'])) {
-        $grandTotal += $items['dokumentasi']['harga'] * $items['dokumentasi']['kuantitas'];
-    }
 
-    if (isset($items['undangan'])) {
-        $grandTotal += $items['undangan']['harga'] * $items['undangan']['kuantitas'];
-    }
-
-    // Buat entri di tabel orders
-    $order = Order::create([
-        'user_id' => Auth::id(), // Ambil user ID yang sedang login
-        'status' => 'pending',   // Status default
-        'tanggal_acara' => $request->tanggal_acara,
-        'total_biaya' => $grandTotal, // Simpan total biaya yang telah dihitung
-    ]);
-
-    // Setelah berhasil, redirect dengan pesan sukses
-    return redirect()->back()->with('success', 'Order berhasil dibuat!');
-}
-
-
-    public function updateStatus(Request $request, $id)
+    public function updateStatus($id)
     {
         $order = Order::find($id);
-        if (!$order) {
-            return redirect()->back()->withErrors('Pesanan tidak ditemukan');
+
+        if ($order->status !== 'confirmed') {
+            $order->status = 'confirmed';
+            $order->save();
+
+                // $invoice = new Invoice();
+                // $invoice->no_invoice = 'INV' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT);
+                // $invoice->user_id = $order->user_id;
+                // $invoice->total_tagihan = $order->total_biaya;
+                // $invoice->save();
         }
 
-        $status = $request->input('status_pemesanan');
-        $order->status_pemesanan = $status;
-        $order->save();
-
-        // Kirim notifikasi ke user
-        if ($status === 'ongoing') {
-            // Kirim notifikasi pesanan diterima
-            // Implementasikan notifikasi sesuai kebutuhan
-        } elseif ($status === 'declined') {
-            // Kirim notifikasi pesanan ditolak
-        }
-
-        return redirect()->route('dashboard')->with('success', 'Status pesanan diperbarui');
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
+    
+    public function updateConfirm($id)
+    {
+        $order = Order::find($id);
+
+        if ($order->status !== 'ongoing') {
+            $order->status = 'ongoing';
+            $order->save();
+        }
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+    }
+    
+    public function updateOngoing($id)
+    {
+        $order = Order::find($id);
+
+        if ($order->status !== 'success') {
+            $order->status = 'success';
+            $order->save();
+        }
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+    }
+    
+    
+    public function showDetail($id)
+    {
+        $order = Order::with('user')->findOrFail($id);
+        return view('admin.pemesanan.detail', compact('order'));
+    }
+
+    public function showInvoice($id)
+    {
+        $order = Order::with(['user', 'items'])->findOrFail($id);
+        $customer = $order->user;
+
+        return view('client.invoice.index', compact('order', 'customer'));
+    }
+    
+    public function uploadPayment(Request $request, $id)
+{
+    $request->validate([
+        'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    $order = Order::find($id);
+
+    if ($order->status !== 'confirmed') {
+        return redirect()->back()->with('error', 'Hanya bisa mengunggah bukti pembayaran untuk status confirmed.');
+    }
+
+    $filePath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+    $order->bukti_pembayaran = $filePath;
+    $order->save();
+
+    return redirect()->back()->with('success', 'Bukti pembayaran berhasil diunggah.');
+}
+
+    
+    
+
+
+
+    
 }

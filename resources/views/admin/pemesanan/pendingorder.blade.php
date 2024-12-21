@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
                             <h3>Pending Order</h3>
-                            <p class="text-subtitle text-muted">Order masuk yang belum dikonfirmasi akan muncul disini</p>
+                            <p class="text-subtitle text-muted">Order masuk yang belum dikonfirmasi akan tampil disini</p>
                         </div>
                     </div>
                 </div>
@@ -39,8 +39,6 @@
                             <h5 class="card-title">
                                 Pending Order
                             </h5>
-                            
-                            
                         </div>
                         
                             
@@ -48,16 +46,50 @@
                             <table class="table table-striped" id="table1">
                                 <thead>
                                     <tr>
-                                        <th>ID Customer</th>
-                                        <th>Email</th>
-                                        <th>Tanggal Pemesanan</th>
+                                        <th>ID Pemesanan</th>
+                                        <th>ID User</th>
+                                        <th>Status</th>
                                         <th>Tanggal Acara</th>
+                                        <th>Total Biaya</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                </tbody>
+                                    @foreach ($orders as $order)
+                                        @csrf                                                
+                                        <tr>
+                                            <td>{{ $order->id_pemesanan }}</td>
+                                            <td>{{ $order->user_id }}</td>
+                                            <td>{{ ucfirst($order->status) }}</td>
+                                            <td>{{date('d-m-Y', strtotime($order->tanggal_acara))}}</td>
+                                            <td>{{ number_format($order->total_biaya, 0, ',', '.') }}</td>
+                                            <td>
+                                                <div class="button-group">
+                                                    <a href="{{ route('admin.order.detail', $order->id_pemesanan) }}" class="btn btn-info">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id_pemesanan]) }}" method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status_pemesanan" value="confirmed">
+                                                        <button type="submit" name="action" value="confirm" class="btn btn-success">
+                                                            <i class="bi bi-check-lg"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id_pemesanan]) }}" method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status_pemesanan" value="rejected">
+                                                        <button type="submit" name="action" value="reject" class="btn btn-danger">
+                                                            <i class="bi bi-x-lg"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>                                                        
                             </table>
                         </div>
                     </div>

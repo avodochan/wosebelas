@@ -24,7 +24,7 @@ class ItemMainCourse extends Model
         parent::boot();
         static::creating(function ($itemmaincourse) {
             $lastitemmaincourse = ItemMainCourse::orderBy('id_item_maincourse', 'desc')
-                                ->lockForUpdate() // Tambahkan ini untuk menghindari race condition
+                                ->lockForUpdate() 
                                 ->first();
             $lastitemmaincourse = $lastitemmaincourse ? intval(substr($lastitemmaincourse->id_item_maincourse, 3)) : 0;
             $itemmaincourse->id_item_maincourse = 'IMC' . str_pad($lastitemmaincourse + 1, 4, '0', STR_PAD_LEFT);

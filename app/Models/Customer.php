@@ -14,7 +14,7 @@ class Customer extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'user_id', // Tambahkan kolom user_id
+        'user_id', 
         'nama',
         'email',
         'no_telepon',

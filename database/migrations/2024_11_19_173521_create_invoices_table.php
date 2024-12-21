@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('pesanan_gedung', function (Blueprint $table) {
-            $table->id();
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->string('no_invoice')->primary();
+            $table->integer('total_tagihan');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesanan_gedungs');
+        Schema::dropIfExists('invoices');
     }
 };

@@ -8,10 +8,11 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->string('id_pemesanan')->primary();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('status')->default('pending'); // pending, ongoing, declined
             $table->date('tanggal_acara');
+            $table->integer('banyak_tamu');
             $table->integer('total_biaya');
             $table->timestamps();
         });

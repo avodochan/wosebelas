@@ -15,6 +15,7 @@ class Souvenir extends Model
         'nama_paket_souvenir',
         'deskripsi_paket_souvenir',
         'harga_paket_souvenir',
+        'thumbnail_souvenir',
     ];
     
     protected static function boot() 
@@ -28,6 +29,6 @@ class Souvenir extends Model
     }
     public function images()
     {
-        return $this->hasMany(Souvenir::class, 'souvenir_id', 'id_souvenir');
+        return $this->hasMany(SouvenirImage::class, 'id_souvenirImage', 'id_souvenir');
     }
 }

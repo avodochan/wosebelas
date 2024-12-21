@@ -31,6 +31,6 @@ class Undangan extends Model
     }
     public function images()
     {
-        return $this->hasMany(Undangan::class, 'undangan_id', 'id_undangan');
+        return $this->hasMany(UndanganImage::class, 'undangan_id', 'id_undangan');
     }
 }

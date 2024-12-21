@@ -30,7 +30,6 @@ class MaincourseController extends Controller
      */
     public function store(Request $request)
     { 
-        
         $request->validate([
             'nama_paket_maincourse' => 'required|string|max:255',
             'deskripsi_paket_maincourse' => 'required|string|max:255',
@@ -42,15 +41,13 @@ class MaincourseController extends Controller
             $tnmaincourse = $request->file('thumbnail_maincourse')->store('maincourse_thumbnails', 'public'); // Simpan di folder storage/app/public/dekorasi_thumbnails
         }
     
-        // Buat data dekorasi terlebih dahulu agar dapat menggunakan id_dekorasi-nya
         $maincourse = Maincourse::create([
             'nama_paket_maincourse' => $request->nama_paket_maincourse,
             'deskripsi_paket_maincourse' => $request->deskripsi_paket_maincourse,
             'harga_paket_maincourse' => $request->harga_paket_maincourse,
             'thumbnail_maincourse' => $tnmaincourse ?? null, // Simpan path file thumbnail
         ]);
-    
-        // Proses penyimpanan file foto_dekorasi jika ada
+        
         if ($request->hasFile('foto_maincourse')) {
             $files = $request->file('foto_maincourse');
             foreach ($files as $file) {
@@ -89,7 +86,7 @@ class MaincourseController extends Controller
      */
     public function update(Request $request, Maincourse $maincourse)
     {
-        //
+        
     }
 
     /**

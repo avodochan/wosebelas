@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gedung;
 use App\Models\GedungImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GedungController extends Controller
 {
@@ -13,7 +14,7 @@ class GedungController extends Controller
      */
     public function index()
     {
-        $gedung = Gedung::all();
+        $gedung = Gedung::with('images')->get();
         return view('admin.cruditem.datagedung', compact('gedung'));
     }
 
@@ -40,12 +41,10 @@ class GedungController extends Controller
             'deskripsi_gedung' => 'required|string|max:255',
         ]);
     
-        // Proses penyimpanan file thumbnail
         if ($request->hasFile('thumbnail_gedung')) {
-            $thgedung = $request->file('thumbnail_gedung')->store('gedung_thumbnails', 'public'); // Simpan di folder storage/app/public/dekorasi_thumbnails
+            $thgedung = $request->file('thumbnail_gedung')->store('gedung_thumbnails', 'public'); 
         }
     
-        // Buat data dekorasi terlebih dahulu agar dapat menggunakan id_dekorasi-nya
         $gedung = Gedung::create([
             'nama_gedung' => $request->nama_gedung,
             'tipe_gedung' =>$request->tipe_gedung,
@@ -55,19 +54,16 @@ class GedungController extends Controller
             'status_gedung' => $request->status_gedung,
             'tanggal_acara' => $request->tanggal_acara,
             'deskripsi_gedung' => $request->deskripsi_gedung,
-            'thumbnail_gedung' => $thgedung ?? null, // Simpan path file thumbnail
+            'thumbnail_gedung' => $thgedung ?? null,
         ]);
     
-        // Proses penyimpanan file foto_dekorasi jika ada
         if ($request->hasFile('foto_gedung')) {
             $files = $request->file('foto_gedung');
             foreach ($files as $file) {
-                // Simpan masing-masing file foto_dekorasi ke direktori
                 $fotoGedungPath = $file->store('gedung_images', 'public');
     
-                // Simpan path foto_dekorasi ke database dalam tabel dekorasi_images
                 GedungImage::create([
-                    'gedung_id' => $gedung->id_gedung, // Gunakan id_dekorasi dari data yang baru dibuat
+                    'gedung_id' => $gedung->id_gedung, 
                     'foto_gedung' => $fotoGedungPath,
                 ]);
             }
@@ -89,17 +85,60 @@ class GedungController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Gedung $gedung)
+    public function edit($id)
     {
-        //
+        $selectedGedung = Gedung::with('images')->findOrFail($id);
+        $gedung = Gedung::all();
+        return view('admin.cruditem.datagedung', compact('gedung', 'selectedGedung'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gedung $gedung)
+    public function update(Request $request, $id)
     {
-        //
+        $gedung = Gedung::findOrFail($id);
+
+        $gedung->update([
+            'nama_gedung' => $request->nama_gedung,
+            'tipe_gedung' =>$request->tipe_gedung,
+            'alamat_gedung' => $request->alamat_gedung,
+            'kapasitas_gedung' => $request->kapasitas_gedung,
+            'harga_sewa_gedung' => $request->harga_sewa_gedung,
+            'status_gedung' => $request->status_gedung,
+            'tanggal_acara' => $request->tanggal_acara,
+            'deskripsi_gedung' => $request->deskripsi_gedung,
+        ]);
+
+        if ($request->hasFile('thumbnail_gedung')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_gedung')->store('gedung_thumbnails', 'public');
+            $gedung->update(['thumbnail_gedung' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_gedung')) 
+        {
+            foreach ($request->file('foto_gedung') as $file) {
+                $fotoPath = $file->store('gedung_images', 'public');
+                GedungImage::create([
+                    'gedung_id' => $gedung->id_gedung,
+                    'foto_gedung' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_gedung')) 
+        {
+            foreach ($request->delete_foto_gedung as $imageId) {
+                $image = GedungImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_gedung);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'gedung berhasil diperbarui.');
     }
 
     /**

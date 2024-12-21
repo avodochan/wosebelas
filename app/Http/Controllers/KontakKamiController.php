@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PendingOrder;
 use Illuminate\Http\Request;
 
-class PendingOrderController extends Controller
+class KontakKamiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.pemesanan.pendingorder');
+        return view ('client.kontakkami.index');
     }
 
     /**
@@ -34,7 +33,7 @@ class PendingOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PendingOrder $pendingOrder)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class PendingOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PendingOrder $pendingOrder)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class PendingOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PendingOrder $pendingOrder)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class PendingOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PendingOrder $pendingOrder)
+    public function destroy(string $id)
     {
         //
     }

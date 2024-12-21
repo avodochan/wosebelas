@@ -1,248 +1,269 @@
-@extends('layouts.client.clientfrontend')
-@extends('layouts.client.button')
+@extends('layouts.client.sectionitem')
 @extends('layouts.client.mainnavbar')
-@section('content')
-<body style="background-color: #F4F7FE">
-    <!-- ***** Main Banner Area Start ***** -->
-    <div class="main-banner" id="top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12" >
-                    <div class="left-content" >
-                        <div class="thumb">
-                            <div class="inner-content" >
-                                <h4>Wedding Sebelas</h4>
-                                <span>Ciptakan Perbedaan di Hari Spesialmu</span>
-                                <div class="main-border-button">
-                                    <a href="#" >Purchase Now!</a>
-                                </div>
-                            </div>
-                            <img src="{{asset('assets/client/clienttl/assets/images/header_bg.png')}}" alt="" style="height: 388px; border-radius:22.16px">
-                        </div>
-                    </div>
-                    <br>
-                </div>
-            </div>
-        </div>
-    <!-- ***** Main Banner Area End ***** -->
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- ***** Men Area Starts ***** -->
-    <section class="section" id="men">
-        
-        <div class="container">
+<!-- Bootstrap JS Bundle (termasuk Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<body>
+    <script src="{{asset('/assets/static/js/initTheme.js')}}"></script>
+    <div id="app">
+        <div id="main" class="layout-horizontal">
+            <header class="mb-5">
+                <div class="header-top">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
+                        </div>
             
-            <div class="row">
-                <div class="col-lg-12">
-                    
-                    <div class="card" style="width: 18rem; border-radius:14.68px;">
-                        <div class="card-body">
-                            <img src="{{asset('assets/client/clienttl/assets/images/header_bg.png')}}" class="card-img-top" alt="" style="border-radius: 13.21px;">
-                            <br>
-                            <br>
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <br>
-                            <div class="container">
-                                <div class="row">
-                                    <a href="#" class="btn-outline-purple" style="margin-right: 5px;">Selengkapnya</a>
-                                    <a href="#" class="btn-outline-purple">Pilih Ini</a>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Men Area Ends ***** -->
-
-    <!-- ***** Explore Area Starts ***** -->
-    <section class="section" id="explore">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="left-content">
-                        <h2>Explore Our Products</h2>
-                        <span>You are allowed to use this HexaShop HTML CSS template. You can feel free to modify or edit this layout. You can convert this template as any kind of ecommerce CMS theme as you wish.</span>
-                        <div class="quote">
-                            <i class="fa fa-quote-left"></i><p>You are not allowed to redistribute this template ZIP file on any other website.</p>
-                        </div>
-                        <p>There are 5 pages included in this HexaShop Template and we are providing it to you for absolutely free of charge at our TemplateMo website. There are web development costs for us.</p>
-                        <p>If this template is beneficial for your website or business, please kindly <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal. Please also tell your friends about our great website. Thank you.</p>
-                        <div class="main-border-button">
-                            <a href="products.html">Discover More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="right-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="leather">
-                                    <h4>Leather Bags</h4>
-                                    <span>Latest Collection</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="first-image">
-                                    <img src="{{asset('assets/client/clienttl/assets/images/explore-image-01.jpg')}}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="second-image">
-                                    <img src="{{asset('assets/client/clienttl/assets/images/explore-image-02.jpg')}}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="types">
-                                    <h4>Different Types</h4>
-                                    <span>Over 304 Products</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Explore Area Ends ***** -->
-
-    <!-- ***** Social Area Starts ***** -->
-    <section class="section" id="social">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-heading">
-                        <h2>Social Media</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row images">
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Fashion</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-01.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>New</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-02.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Brand</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-03.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Makeup</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-04.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Leather</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-05.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Bag</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="{{asset('assets/client/clienttl/assets/images/instagram-06.jpg')}}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Social Area Ends ***** -->
-
-    <!-- ***** Subscribe Area Starts ***** -->
-    <div class="subscribe">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="section-heading">
-                        <h2>By Subscribing To Our Newsletter You Can Get 30% Off</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                    <form id="subscribe" action="" method="get">
-                        <div class="row">
-                          <div class="col-lg-5">
-                            <fieldset>
-                              <input name="name" type="text" id="name" placeholder="Your Name" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-5">
-                            <fieldset>
-                              <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-2">
-                            <fieldset>
-                              <button type="submit" id="form-submit" class="main-dark-button"><i class="fa fa-paper-plane"></i></button>
-                            </fieldset>
-                          </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <ul>
-                                <li>Store Location:<br><span>Sunny Isles Beach, FL 33160, United States</span></li>
-                                <li>Phone:<br><span>010-020-0340</span></li>
-                                <li>Office Location:<br><span>North Miami Beach</span></li>
+                        <!-- Navbar Menu -->
+                        <nav class="navbar-menu">
+                            <ul class="navbar-nav d-flex justify-content-center align-items-center flex-row">
+                                <li class="nav-item"><a href="/home " class="nav-link">Beranda</a></li>
+                                <li class="nav-item"><a href="/projekkami" class="nav-link">Projek Kami</a></li>
+                                <li class="nav-item"><a href="/booking" class="nav-link">Booking</a></li>
+                                <li class="nav-item"><a href="/tentangkami" class="nav-link">Tentang Kami</a></li>
+                                <li class="nav-item"><a href="/kontakkami" class="nav-link">Kontak Kami</a></li>
                             </ul>
-                        </div>
-                        <div class="col-6">
-                            <ul>
-                                <li>Work Hours:<br><span>07:30 AM - 9:30 PM Daily</span></li>
-                                <li>Email:<br><span>info@company.com</span></li>
-                                <li>Social Media:<br><span><a href="#">Facebook</a>, <a href="#">Instagram</a>, <a href="#">Behance</a>, <a href="#">Linkedin</a></span></li>
-                            </ul>
+                        </nav>
+            
+                        <!-- Profile and Cart Icons -->
+                        <div class="header-top-right d-flex align-items-center">
+                            <a href="/keranjang" class="cart-icon me-4">
+                                <i class="bi bi-cart fs-4"></i>
+                            </a>
+                            <div class="dropdown">
+                                <a href="#" class="user-dropdown d-flex align-items-center dropdown-toggle" 
+                                   data-bs-toggle="dropdown" 
+                                   aria-expanded="false"
+                                   id="topbarUserDropdown">
+                                    <div class="avatar avatar-md2">
+                                        <img src="{{asset('/assets/compiled/jpg/1.jpg')}}" alt="Avatar">
+                                    </div>
+                                    <div class="text d-none d-lg-block">
+                                        <h6 class="user-dropdown-name"></h6>
+                                        <p class="user-dropdown-status text-sm text-muted">Member</p>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg" 
+                                    aria-labelledby="topbarUserDropdown">
+                                    <li><a class="dropdown-item" href="/datadiri">Profile</a></li>
+                                    <li><a class="dropdown-item" href="/historiorder">Histori Order</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="auth-login.html">Logout</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </header>
+            
+            
+            <div class="content-wrapper container">
+                <div class="page-content">
+                    <section class="row">
+                        <div class="col-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>WeddingSebelas</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {{-- foto disini --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            
+                            <!-- Modal Pesanan Ditolak -->
+                            <div class="modal fade" id="rejectedOrderModal" tabindex="-1" aria-labelledby="rejectedOrderModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="rejectedOrderModalLabel">Pesanan Ditolak</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    Pesanan Anda telah ditolak oleh admin. Silakan hubungi admin untuk informasi lebih lanjut.
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+  
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <h4>Entertainment</h4>
+                                        <div class="col-md-3 col-sm-12">
+                                            
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <img class="card-img-bottom img-fluid" src="https://static.republika.co.id/uploads/images/inpicture_slide/rizky-febian-dan-mahalini-resmi-melangsungkan-pernikahan-pada-jumat_240510130805-973.jpeg"
+                                                        alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Rizky Febian & Mahalini</h4>
+                                                        <p class="card-text">
+                                                            Isbat nikah Rizky Febian dan Mahalini ditolak oleh Pengadilan Agama Jakarta Selatan (Jaksel). 
+                                                            Keduanya diharuskan melakukan 
+                                                        </p>
+                                                        <a href="#" class="card-link"><small>Baca Selengkapnya</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <img class="card-img-bottom img-fluid" src="https://static.republika.co.id/uploads/images/inpicture_slide/rizky-febian-dan-mahalini-resmi-melangsungkan-pernikahan-pada-jumat_240510130805-973.jpeg"
+                                                        alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Rizky Febian & Mahalini</h4>
+                                                        <p class="card-text">
+                                                            Isbat nikah Rizky Febian dan Mahalini ditolak oleh Pengadilan Agama Jakarta Selatan (Jaksel). 
+                                                            Keduanya diharuskan melakukan 
+                                                        </p>
+                                                        <a href="#" class="card-link"><small>Baca Selengkapnya</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <img class="card-img-bottom img-fluid" src="https://static.republika.co.id/uploads/images/inpicture_slide/rizky-febian-dan-mahalini-resmi-melangsungkan-pernikahan-pada-jumat_240510130805-973.jpeg"
+                                                        alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Rizky Febian & Mahalini</h4>
+                                                        <p class="card-text">
+                                                            Isbat nikah Rizky Febian dan Mahalini ditolak oleh Pengadilan Agama Jakarta Selatan (Jaksel). 
+                                                            Keduanya diharuskan melakukan 
+                                                        </p>
+                                                        <a href="#" class="card-link"><small>Baca Selengkapnya</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <img class="card-img-bottom img-fluid" src="https://static.republika.co.id/uploads/images/inpicture_slide/rizky-febian-dan-mahalini-resmi-melangsungkan-pernikahan-pada-jumat_240510130805-973.jpeg"
+                                                        alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Rizky Febian & Mahalini</h4>
+                                                        <p class="card-text">
+                                                            Isbat nikah Rizky Febian dan Mahalini ditolak oleh Pengadilan Agama Jakarta Selatan (Jaksel). 
+                                                            Keduanya diharuskan melakukan 
+                                                        </p>
+                                                        <a href="#" class="card-link"><small>Baca Selengkapnya</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>FAQ</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Isi konten FAQ -->
+                                            <div class="accordion" id="faqAccordion">
+                                                <!-- Pertanyaan 1 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="faq1Heading">
+                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                                                            Bagaimana cara memesan layanan wedding organizer secara online?
+                                                        </button>
+                                                    </h2>
+                                                    <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#faqAccordion">
+                                                        <div class="accordion-body">
+                                                            Anda dapat memesan layanan melalui website atau aplikasi resmi kami. Pilih paket yang sesuai, isi formulir pemesanan, dan lakukan pembayaran sesuai instruksi.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                            
+                                                <!-- Pertanyaan 2 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="faq2Heading">
+                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                                                            Apakah saya bisa menyesuaikan paket yang tersedia?
+                                                        </button>
+                                                    </h2>
+                                                    <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#faqAccordion">
+                                                        <div class="accordion-body">
+                                                            Ya, kami menyediakan layanan kustomisasi paket sesuai kebutuhan Anda. Anda dapat menghubungi tim kami untuk membahas detail yang diinginkan.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                            
+                                                <!-- Pertanyaan 3 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="faq3Heading">
+                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                                                            Bagaimana jika saya perlu membatalkan pemesanan?
+                                                        </button>
+                                                    </h2>
+                                                    <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#faqAccordion">
+                                                        <div class="accordion-body">
+                                                            Jika Anda perlu membatalkan pemesanan, harap hubungi tim kami segera. Kebijakan pembatalan dan pengembalian dana berlaku sesuai ketentuan yang tercantum di website kami.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </section>
+                </div>
             </div>
-        </div>
+        </div> 
+        
+        
+        @if (session('order_rejected'))
+        <script>
+            // Tampilkan modal jika flash message ada
+            document.addEventListener('DOMContentLoaded', function() {
+                var rejectedOrderModal = new bootstrap.Modal(document.getElementById('rejectedOrderModal'));
+                rejectedOrderModal.show();
+            });
+        </script>
+        @endif
+            
     </div>
-    <!-- ***** Subscribe Area Ends ***** -->
-    
-  </body>
-@endsection
+    <script src="{{asset('assets/static/js/components/dark.js')}}"></script>
+    <script src="{{asset('assets/static/js/pages/horizontal-layout.js')}}"></script>
+    <script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('assets/compiled/js/app.js')}}"></script>
+    <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+    <script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script>
+
+</body>
+
+</html>

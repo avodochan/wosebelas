@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Dekorasi</title>
+    <title>Data Maincourse</title>
     <link rel="shortcut icon" href="{{ asset('/assets/admin/admintl/assets/compiled/svg/favicon.svg') }}"
         type="image/x-icon">
     <link rel="shortcut icon"
@@ -81,7 +81,7 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="city-column">Foto Thumbnail Item Maincourse</label>
-                                                <input type="file" name="thumbnail_item_maincourse" accept="image/*">
+                                                <input type="file" name="thumbnail_item_maincourse" accept="image/*" class="form-control">
                                             </div>
                                         </div>
 
@@ -104,7 +104,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                Data Dokumentasi
+                                Data Main Course
                             </h5>
                         </div>
                         <div class="card-body">
@@ -112,105 +112,118 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nama Paket</th>
-                                        <th>Harga</th>
+                                        <th>Nama Maincourse</th>
+                                        <th>Kategori Maincourse</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-
-                                {{-- @forelse
+                                
+                                <tbody>
+                                    @forelse ($itemmaincourse as $itemmaincourse)
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Rp </td>
+                                        <td>{{ $itemmaincourse->id_item_maincourse }}</td>
+                                        <td>{{ $itemmaincourse->nama_item_maincourse }}</td>
+                                        <td>{{ $itemmaincourse->kategori_item_maincourse }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                                data-bs-target="#info">
-                                                <i class="bi bi-eye-fill"></i></button>
-                                            <button type="button" class="btn btn-outline-warning"
-                                                data-bs-toggle="modal" data-bs-target="#warning">
-                                                <i class="bi bi-pencil-square"></i></button>
-
-                                            <div class="modal fade text-left" id="info" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel130" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-info">
-                                                            <h5 class="modal-title white" id="myModalLabel130">Info
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ $doku->foto_dokumentasi }}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-info ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal fade text-left" id="warning" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-warning">
-                                                            <h5 class="modal-title white" id="myModalLabel140">Warning
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Tart lemon drops macaroon oat cake chocolate toffee
-                                                            chocolate
-                                                            bar icing. Pudding jelly beans
-                                                            carrot cake pastry gummies cheesecake lollipop. I love
-                                                            cookie
-                                                            lollipop cake I love sweet
-                                                            gummi bears cupcake dessert.
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-warning ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $itemmaincourse->id_item_maincourse }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $itemmaincourse->id_item_maincourse }}">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>                                        
                                         </td>
+                                        
+                                        {{-- detail --}}
+                                        <div class="modal fade" id="detailModal{{ $itemmaincourse->id_item_maincourse }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $itemmaincourse->id_item_maincourse }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="detailModalLabel{{ $itemmaincourse->id_item_maincourse }}">Detail {{ $itemmaincourse->nama_item_maincourse }}</h3>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="{{ asset('storage/' . $itemmaincourse->thumbnail_item_maincourse) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail itemmaincourse">
+                                                            </div>
+                                                            
+                                                            <div class="col-6">
+                                                                <h6>Kategori:</h6>
+                                                                <p>{{ $itemmaincourse->kategori_item_maincourse }}</p>
+                                                                <h6>Deskripsi:</h6>
+                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($itemmaincourse->deskripsi_item_maincourse))) !!}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+                                        {{-- edit --}}
+                                        <div class="modal fade" id="editModal{{ $itemmaincourse->id_item_maincourse }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Edit itemmaincourse</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('itemmaincourse.update', $itemmaincourse->id_item_maincourse ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="{{ asset('storage/' . $itemmaincourse->thumbnail_item_maincourse) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail itemmaincourse">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @isset($itemmaincourse)
+                                                                <div class="form-group mb-3">
+                                                                    <label>Nama itemmaincourse</label>
+                                                                    <input type="text" name="nama_item_maincourse" class="form-control" value="{{ $itemmaincourse->nama_item_maincourse }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="city-column">Kategori Maincourse</label>
+                                                                    <div class="input-group">
+                                                                        <select class="form-select" name="kategori_item_maincourse" value="{{ $itemmaincourse->kategori_item_maincourse }}">
+                                                                            <option value disabled></option>
+                                                                            <option value="karbohidrat" @if($itemmaincourse->kategori_item_maincourse == 'karbohidrat') selected @endif>Karbohidrat</option>
+                                                                            <option value="lauk pauk" @if($itemmaincourse->kategori_item_maincourse == 'lauk pauk') selected @endif>Lauk Pauk</option>
+                                                                            <option value="tumisan" @if($itemmaincourse->kategori_item_maincourse == 'tumisan') selected @endif>Tumisan</option>
+                                                                            <option value="acar" @if($itemmaincourse->kategori_item_maincourse == 'acar') selected @endif>Acar</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Deskripsi</label>
+                                                                    <textarea name="deskripsi_item_maincourse" class="form-control" rows="3">{{ $itemmaincourse->deskripsi_item_maincourse }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Thumbnail</label>
+                                                                    <input type="file" name="thumbnail_item_maincourse" class="form-control">
+                                                                </div>
+                                                            @else
+                                                                <p>Data tidak ditemukan.</p>
+                                                            @endisset
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </tr>
                                     @empty
                                     <tr>
                                         <td colspan="4" style="text-align: center">Tidak ada data ditemukan</td>
                                     </tr>
                                     
-                                @endforelse --}}
+                                @endforelse
+                                </tbody>
 
                             </table>
                         </div>

@@ -1,164 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeddingSebelas Navbar</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-logo">
-            <img src="profile-image.jpg" alt="Profile" class="profile-image">
-            <span>WeddingSebelas</span>
-        </div>
-        <ul class="navbar-links">
-            <li><a href="home">Beranda</a></li>
-            <li><a href="#">Projek</a></li>
-            <li><a href="bookinggedung">Booking</a></li>
-            <li><a href="#">Tentang Kami</a></li>
-            <li><a href="#">Kontak Kami</a></li>
-        </ul>
-        <div class="navbar-icons">
-            <a href="keranjang"><i class="fa fa-shopping-cart"></i></a>
-            <a href="#"><i class="fa fa-search"></i></a>
-            <div class="dropdown">
-                <img src="profile-image.jpg" alt="Profile" class="profile-image" onclick="toggleDropdown()">
-                <div class="dropdown-content" id="dropdownContent">
-                    <a href="/datadiri">Profile</a>
-                    <a href="/historiorder">Histori Order</a>
-                    <a href="/logout">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <link rel="shortcut icon" href="{{asset('/assets/admin/admintl/assets/compiled/svg/favicon.svg')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAiCAYAAADRcLDBAAAEs2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjMzIgogICBleGlmOlBpeGVsWURpbWVuc2lvbj0iMzQiCiAgIGV4aWY6Q29sb3JTcGFjZT0iMSIKICAgdGlmZjpJbWFnZVdpZHRoPSIzMyIKICAgdGlmZjpJbWFnZUxlbmd0aD0iMzQiCiAgIHRpZmY6UmVzb2x1dGlvblVuaXQ9IjIiCiAgIHRpZmY6WFJlc29sdXRpb249Ijk2LjAiCiAgIHRpZmY6WVJlc29sdXRpb249Ijk2LjAiCiAgIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiCiAgIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJwcm9kdWNlZCIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWZmaW5pdHkgRGVzaWduZXIgMS4xMC4xIgogICAgICBzdEV2dDp3aGVuPSIyMDIyLTAzLTMxVDEwOjUwOjIzKzAyOjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz5V57uAAAABgmlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rRFEUxz9maORHo1hYKC9hISNGTWwsRn4VFmOUX5uZZ36oeTOv954kW2WrKLHxa8FfwFZZK0WkZClrYoOe87ypmWTO7dzzud97z+nec8ETzaiaWd4NWtYyIiNhZWZ2TvE946WZSjqoj6mmPjE1HKWkfdxR5sSbgFOr9Ll/rXoxYapQVik8oOqGJTwqPL5i6Q5vCzeo6dii8KlwpyEXFL519LjLLw6nXP5y2IhGBsFTJ6ykijhexGra0ITl5bRqmWU1fx/nJTWJ7PSUxBbxJkwijBBGYYwhBgnRQ7/MIQIE6ZIVJfK7f/MnyUmuKrPOKgZLpEhj0SnqslRPSEyKnpCRYdXp/9++msneoFu9JgwVT7b91ga+LfjetO3PQ9v+PgLvI1xkC/m5A+h7F32zoLXug38dzi4LWnwHzjeg8UGPGbFfySvuSSbh9QRqZ6H+Gqrm3Z7l9zm+h+iafNUV7O5Bu5z3L/wAdthn7QIme0YAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAJTSURBVFiF7Zi9axRBGIefEw2IdxFBRQsLWUTBaywSK4ubdSGVIY1Y6HZql8ZKCGIqwX/AYLmCgVQKfiDn7jZeEQMWfsSAHAiKqPiB5mIgELWYOW5vzc3O7niHhT/YZvY37/swM/vOzJbIqVq9uQ04CYwCI8AhYAlYAB4Dc7HnrOSJWcoJcBS4ARzQ2F4BZ2LPmTeNuykHwEWgkQGAet9QfiMZjUSt3hwD7psGTWgs9pwH1hC1enMYeA7sKwDxBqjGnvNdZzKZjqmCAKh+U1kmEwi3IEBbIsugnY5avTkEtIAtFhBrQCX2nLVehqyRqFoCAAwBh3WGLAhbgCRIYYinwLolwLqKUwwi9pxV4KUlxKKKUwxC6ZElRCPLYAJxGfhSEOCz6m8HEXvOB2CyIMSk6m8HoXQTmMkJcA2YNTHm3congOvATo3tE3A29pxbpnFzQSiQPcB55IFmFNgFfEQeahaAGZMpsIJIAZWAHcDX2HN+2cT6r39GxmvC9aPNwH5gO1BOPFuBVWAZue0vA9+A12EgjPadnhCuH1WAE8ivYAQ4ohKaagV4gvxi5oG7YSA2vApsCOH60WngKrA3R9IsvQUuhIGY00K4flQG7gHH/mLytB4C42EgfrQb0mV7us8AAMeBS8mGNMR4nwHamtBB7B4QRNdaS0M8GxDEog7iyoAguvJ0QYSBuAOcAt71Kfl7wA8DcTvZ2KtOlJEr+ByyQtqqhTyHTIeB+ONeqi3brh+VgIN0fohUgWGggizZFTplu12yW8iy/YLOGWMpDMTPXnl+Az9vj2HERYqPAAAAAElFTkSuQmCC" type="image/png">
 
-    <script src="script.js"></script>
-</body>
-</html>
+  <link rel="stylesheet" href="{{asset('/assets/admin/admintl/assets/compiled/css/app.css')}}">
+  <link rel="stylesheet" href="{{asset('/assets/admin//admintl/assets/compiled/css/app-dark.css')}}">
+  <link rel="stylesheet" href="{{asset('/assets/admin/admintl/assets/compiled/css/iconly.css')}}">
+  
+  
+      
+</head>
 
 <style>
-    /* Global styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+    /* Navbar Styling */
+.navbar-menu {
+    flex-grow: 1;
 }
 
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
+.navbar-nav {
+    display: flex !important;
+    justify-content: center;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f1f3ff;
-    border-radius: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-logo {
-    display: flex;
-    align-items: center;
-}
-
-.navbar-logo img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.navbar-links {
-    display: flex;
+    gap: 20px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.navbar-links li {
-    margin: 0 10px;
+.nav-item {
+    display: inline-block;
 }
 
-.navbar-links a {
+.nav-link {
     text-decoration: none;
-    color: #4a4aff;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 30px;
-    transition: background-color 0.3s ease;
+    color: #000;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+    padding: 8px 15px;
 }
 
-.navbar-links a:hover {
-    background-color: #e0e0ff;
+.nav-link:hover {
+    color: #007bff;
+
 }
 
-.navbar-icons {
-    display: flex;
-    align-items: center;
+/* Cart Icon Styling */
+.cart-icon {
+    text-decoration: none;
+    color: #000;
 }
 
-.navbar-icons a {
-    color: #4a4aff;
-    margin: 0 10px;
-    font-size: 20px;
+.cart-icon i {
+    font-size: 1.5rem;
 }
 
-.navbar-icons img {
+/* User Dropdown Styling */
+.user-dropdown {
+    cursor: pointer;
+}
+
+.user-dropdown .avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-dropdown .text {
     margin-left: 10px;
 }
 
-.profile-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+.dropdown-menu {
+    min-width: 200px;
+}
 
-        /* Container dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        /* Isi dropdown */
-        .dropdown-content {
-            display: none; /* Sembunyikan dropdown secara default */
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        /* Link di dalam dropdown */
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        /* Hover efek untuk link dropdown */
-        .dropdown-content a:hover {
-        background-color: #f1f1f1;
-        }
 </style>
-
-<script>
-    // Toggle dropdown saat gambar diklik
-    function toggleDropdown() {
-        const dropdownContent = document.getElementById("dropdownContent");
-        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-    }
-
-    // Tutup dropdown saat klik di luar
-    window.onclick = function(event) {
-        const dropdownContent = document.getElementById("dropdownContent");
-        if (!event.target.matches('.profile-image')) {
-            dropdownContent.style.display = "none";
-        }
-    }
-</script>

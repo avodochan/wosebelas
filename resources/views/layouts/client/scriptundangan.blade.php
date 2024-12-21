@@ -26,153 +26,91 @@
     }
 
     
-    function validateKuantitas(input) 
-    {
-        const value = input.value;
-        const errorElement = document.getElementById('kuantitasError');
-        
-        if (value < 100) 
-        {
-            errorElement.style.display = 'block';
-        } 
-        
-        else 
-        {
-            errorElement.style.display = 'none';
+    function validateKuantitas()
+     {
+        var kuantitasInput = document.getElementById('kuantitas');
+        var kuantitasError = document.getElementById('kuantitasError');
+        var kuantitas = parseInt(kuantitasInput.value) || 0;
+
+        if (kuantitas < 100) {
+            kuantitasError.style.display = 'block';
+        } else {
+            kuantitasError.style.display = 'none';
+        }
+
+        if (kuantitas >= 100) {
+            updateUndanganTotal();
         }
     }
+
     
-    @if(session()->has('cart') && isset(session('cart')['undangan']))
-        var hargaBase = {{ session('cart')['undangan']['harga'] }};
+    @if(isset($undangans))        
+        let hargaBase = {{ $undangans->harga_undangan }};
+    @elseif(session()->has('cart') && isset(session('cart')['undangan']))
+        let hargaBase = {{ session('cart')['undangan']['harga'] }};
     @else
-        var hargaBase = 0; 
+        let hargaBase = 0;
     @endif
-    
 
-    function updateUndanganTotal() {
-        var bahan = document.getElementById('bahan_undangan').value;
-        var kuantitas = document.getElementById('kuantitas_undangan').value;
-        var hargaBaru = hargaBase;
-
-        if (bahan === "aster200gr") 
-        {
-            hargaBaru += 200;
-        } 
-        else if (bahan === "amplopaster") 
-        {
-            hargaBaru += 1000;
-        } 
-        else if (bahan === "bchardcover") 
-        {
-            hargaBaru += 2000;
-        } 
-        else if (bahan === "amplopjasmine") 
-        {
-            hargaBaru += 7200;
-        }
-        
-        var totalUndangan = hargaBaru * kuantitas;
-
-        document.getElementById('harga_undangan').innerHTML = new Intl.NumberFormat('id-ID').format(hargaBaru);
-        document.getElementById('undangan_total').innerHTML = new Intl.NumberFormat('id-ID').format(totalUndangan);
-
-        calculateGrandTotal();
-    }
-    
-    function calculateGrandTotal() 
+    function updateUndanganTotal() 
     {
-        let grandTotal = 0;
+        const bahan = document.getElementById('bahan_undangan') ? document.getElementById('bahan_undangan').value : '';
+        const kuantitasElement = document.getElementById('kuantitas') || document.getElementById('kuantitas_undangan');
+        const kuantitas = parseInt(kuantitasElement.value) || 0;
 
-        document.querySelectorAll('input[name="selected_items[]"]:checked').forEach(function(checkbox) {
-            let itemRow = checkbox.closest('tr');  
-            let itemTotalElement = itemRow.querySelector('span[id$="_total"]');  
-            let itemTotal = parseInt(itemTotalElement.innerText.replace(/\D/g, ''));  
-            grandTotal += itemTotal; 
-        });
+        let hargaTambahan = 0;
 
-        document.getElementById('grand_total').innerText = grandTotal.toLocaleString();  
-        document.getElementById('grand_total_input').value = grandTotal;  
+        switch (bahan) {
+            case "aster200gr": hargaTambahan = 200; break;
+            case "amplopaster": hargaTambahan = 1000; break;
+            case "bchardcover": hargaTambahan = 2000; break;
+            case "amplopjasmine": hargaTambahan = 7200; break;
+        }
+
+        // Hitung harga satuan dan total
+        const hargaSatuan = hargaBase + hargaTambahan;
+        const totalHarga = hargaSatuan * kuantitas;
+
+        // Update elemen di halaman
+        if (document.getElementById('harga_dinamis')) {
+            document.getElementById('harga_dinamis').innerHTML = new Intl.NumberFormat('id-ID').format(hargaSatuan);
+        }
+        if (document.getElementById('undangan_total')) {
+            document.getElementById('undangan_total').innerHTML = new Intl.NumberFormat('id-ID').format(totalHarga);
+        }
     }
+    
+    document.addEventListener('DOMContentLoaded', updateUndanganTotal);
 
-    window.onload = calculateGrandTotal;
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    calculateGrandTotal();
 
-    document.querySelectorAll('input[name="selected_items[]"], #kuantitas_undangan').forEach(function(element) {
+    document.querySelectorAll('input[name="selected_items[]"], #kuantitas_undangan, #bahan_undangan').forEach(function(element) {
         element.addEventListener('change', calculateGrandTotal);
     });
-    
-    // Fungsi untuk menyimpan keranjang ke cookie
-function saveCartToCookie() {
-    let cartItems = [];
-
-    // Loop melalui item yang dipilih dan ambil data
-    document.querySelectorAll('input[name="selected_items[]"]:checked').forEach(function(checkbox) {
-        let itemRow = checkbox.closest('tr');
-        let item = {
-            id: checkbox.value,  // ID item
-            nama: itemRow.querySelector('td:nth-child(3)').innerText,  // Nama item
-            kategori: itemRow.querySelector('td:nth-child(4)').innerText,  // Kategori item
-            kuantitas: itemRow.querySelector('input[name="kuantitas"]').value,  // Kuantitas item
-            harga: itemRow.querySelector('span[id$="_total"]').innerText.replace(/\D/g, '')  // Harga item
-        };
-        cartItems.push(item);
     });
 
-    // Set cookie dengan masa berlaku 7 hari
-    let d = new Date();
-    d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 hari
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = "cart=" + JSON.stringify(cartItems) + ";" + expires + ";path=/";
-}
+    function calculateGrandTotal() 
+    {
+        const checkboxes = document.querySelectorAll('input[name="selected_items[]"]:checked');
+        let grandTotal = 0;
 
-// Fungsi untuk membaca cookie
-function getCookie(name) {
-    let value = "; " + document.cookie;
-    let parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
-}
+        checkboxes.forEach(checkbox => {
+            const itemKey = checkbox.value;
+            const hargaElement = document.getElementById(`${itemKey}_total`);
 
-// Fungsi untuk memuat keranjang dari cookie
-function loadCartFromCookie() {
-    let cartCookie = getCookie("cart");
-    if (cartCookie) {
-        let cartItems = JSON.parse(cartCookie);
-
-        // Loop melalui item dan tambahkan ke tampilan keranjang
-        cartItems.forEach(function(item) {
-            // Cari checkbox yang sesuai berdasarkan ID atau nama
-            let checkbox = document.querySelector(`input[name="selected_items[]"][value="${item.id}"]`);
-            if (checkbox) {
-                checkbox.checked = true;
-                let itemRow = checkbox.closest('tr');
-                
-                // Set nama, kategori, kuantitas, dan harga
-                itemRow.querySelector('td:nth-child(3)').innerText = item.nama;
-                itemRow.querySelector('td:nth-child(4)').innerText = item.kategori;
-                itemRow.querySelector('input[name="kuantitas"]').value = item.kuantitas;
-                itemRow.querySelector('span[id$="_total"]').innerText = parseInt(item.harga).toLocaleString();
+            if (hargaElement) {
+                const hargaItem = parseInt(hargaElement.textContent.replace(/[^\d]/g, '')) || 0;
+                grandTotal += hargaItem;
             }
         });
-
-        // Hitung ulang Grand Total
-        calculateGrandTotal();
+        
+        document.getElementById('grand_total').innerHTML = 'Rp ' + new Intl.NumberFormat('id-ID').format(grandTotal);
+        document.getElementById('grand_total_input').value = grandTotal;
     }
-}
 
-    // Panggil fungsi ini saat halaman dimuat
-    window.onload = function() 
-    {
-        loadCartFromCookie();  // Memuat keranjang dari cookie
-        calculateGrandTotal();  // Hitung total harga berdasarkan item yang dimuat
-    };
 
-    // Panggil fungsi untuk menyimpan data ke cookie setiap kali ada perubahan
-    document.querySelectorAll('input[name="selected_items[]"], #kuantitas_undangan').forEach(function(element) 
-    {
-        element.addEventListener('change', function() {
-            saveCartToCookie();  // Simpan perubahan ke cookie
-            calculateGrandTotal();  // Hitung ulang Grand Total
-        });
-    });
 
     // Fungsi untuk menghapus item dari keranjang
     function removeItemFromCart(itemId) 

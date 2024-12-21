@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_paket_bridalstyle');
             $table->text('deskripsi_paket');
             $table->integer('harga_paket');
+            $table->string('thumbnail_bridalstyle')->nullable();
             $table->timestamps();
         });
     }

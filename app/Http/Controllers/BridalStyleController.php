@@ -14,8 +14,7 @@ class BridalStyleController extends Controller
     public function index()
     {
         $bridalStyle = BridalStyle::all();
-        $bridalStyleImages = BridalStyleImage::all();
-        return view('admin.cruditem.databridalstyle', compact('bridalStyle', 'bridalStyleImages'));
+        return view('admin.cruditem.databridalstyle', compact('bridalStyle' ));
     }
 
     public function create()
@@ -28,12 +27,21 @@ class BridalStyleController extends Controller
      */
     public function store(Request $request)
     { 
-        $bridalStyle = BridalStyle::create([
-            'nama_paket_bridalstyle' => $request->nama_paket_bridalstyle,
-            'deskripsi_paket' => $request->deskripsi_paket,
-            'harga_paket' => $request->harga_paket,
+        $request->validate([
+            'nama_paket_bridalstyle' => 'required|string|max:255',
+            'thumbnail_bridalstyle' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
         
+        if ($request->hasFile('thumbnail_bridalstyle')) {
+            $thumbnailPath = $request->file('thumbnail_bridalstyle')->store('bridalstyle_thumbnails', 'public'); 
+        }
+        
+        $bridalStyle = BridalStyle::create([
+           'nama_paket_bridalstyle' => $request->nama_paket_bridalstyle,
+            'deskripsi_paket' => $request->deskripsi_paket,
+            'harga_paket' => $request->harga_paket,
+            'thumbnail_bridalstyle' => $thumbnailPath ?? null,
+        ]);//
         
         return redirect('admin/databridalstyle')->with('success', 'Data berhasil disimpan');
     }
@@ -66,6 +74,12 @@ class BridalStyleController extends Controller
             'deskripsi_paket' => 'required',
             'harga_paket' => 'required|numeric',
         ]);
+        
+        if ($request->hasFile('thumbnail_bridalstyle')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_bridalstyle')->store('bridalStyle_thumbnails', 'public');
+            $bridalStyle->update(['thumbnail_bridalstyle' => $thumbnailPath]);
+        }
 
         $bridalStyle->update([
             'nama_paket_bridalstyle' => $request->nama_paket_bridalstyle,

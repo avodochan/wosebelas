@@ -3,18 +3,43 @@
 
 </html>
 
-<nav class="navbar">
-    <h2 style="margin-right: 300px;">Jelajahi</h2>
-    <ul>
-        <li><a href="{{ url('bookinggedung') }}" class="nav-link {{ Request::is('bookinggedung') ? 'active' : '' }}">Gedung</a></li>
-        <li><a href="{{ url('bookingkatering') }}" class="nav-link {{ Request::is('bookingkatering') ? 'active' : '' }}">Katering</a></li>
-        <li><a href="{{ url('bookingdekor') }}" class="nav-link {{ Request::is('bookingdekor') ? 'active' : '' }}">Dekorasi</a></li>
-        <li><a href="{{ url('bookingdokumentasi') }}" class="nav-link {{ Request::is('bookingdokumentasi') ? 'active' : '' }}">Dokumentasi</a></li>
-        <li><a href="{{ url('bookinghiburan') }}" class="nav-link {{ Request::is('bookinghiburan') ? 'active' : '' }}">Hiburan</a></li>
-        <li><a href="{{ url('bookingbridalstyle') }}" class="nav-link {{ Request::is('bookingbridalstyle') ? 'active' : '' }}">MUA</a></li>
-        <li><a href="{{ url('bookingsouvenir') }}" class="nav-link {{ Request::is('bookingsouvenir') ? 'active' : '' }}">Souvenir</a></li>
-        <li><a href="{{ url('bookingundangan') }}" class="nav-link {{ Request::is('bookingundangan') ? 'active' : '' }}">Undangan</a></li>
-    </ul>
+<nav class="main-navbar">
+    <div class="container">
+        <ul>
+            <li class="menu-item">
+               <a href="{{ url('bookinggedung') }}" class="menu-link {{ Request::is('bookinggedung') ? 'active' : '' }}">Gedung</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingkatering') }}" class="nav-link {{ Request::is('bookingkatering') ? 'active' : '' }}">Katering</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingdekor') }}" class="nav-link {{ Request::is('bookingdekor') ? 'active' : '' }}">Dekorasi</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingdokumentasi') }}" class="nav-link {{ Request::is('bookingdokumentasi') ? 'active' : '' }}">Dokumentasi</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookinghiburan') }}" class="nav-link {{ Request::is('bookinghiburan') ? 'active' : '' }}">Hiburan</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingbridalstyle') }}" class="nav-link {{ Request::is('bookingbridalstyle') ? 'active' : '' }}">MUA</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingsouvenir') }}" class="nav-link {{ Request::is('bookingsouvenir') ? 'active' : '' }}">Souvenir</a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="{{ url('bookingundangan') }}" class="nav-link {{ Request::is('bookingundangan') ? 'active' : '' }}">Undangan</a>
+            </li>
+            
+        </ul>
+    </div>
 </nav>
 
 <style>

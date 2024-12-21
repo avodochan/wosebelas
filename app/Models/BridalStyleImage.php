@@ -21,20 +21,15 @@ class BridalStyleImage extends Model
     {
         parent::boot();
         static::creating(function ($bridalStyleImage) {
-            // Ambil entri terakhir
             $lastbridalStyleImage = BridalStyleImage::orderBy('id_bridalStyleImage', 'desc')->first();
-
-            // Jika entri terakhir ada, ambil bagian numeriknya dan tambah 1. Jika tidak ada, mulai dari 0
             $lastId = $lastbridalStyleImage ? intval(substr($lastbridalStyleImage->id_bridalStyleImage, 3)) : 0;
-
-            // Buat ID baru dengan format BSI dan angka 4 digit
             $bridalStyleImage->id_bridalStyleImage = 'BSI' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
         });
     }
     
-    public function bridalstyle()
+    public function images()
     {
-        return $this->belongsTo(Dekorasi::class, 'bridalstyle_id', 'id_bridalstyle');
+        return $this->hasMany(ItemBridalStyle::class, 'bridalstyle_item_id', 'id_bridalStyleImage');
     }
 
 }

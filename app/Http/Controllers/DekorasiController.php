@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dekorasi;
 use App\Models\DekorasiImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DekorasiController extends Controller
 {
@@ -13,8 +14,8 @@ class DekorasiController extends Controller
      */
     public function index()
     {
-        $dekor = Dekorasi::all();
-        return view('admin.cruditem.datadekorasi', compact('dekor'));
+        $dekorasi = Dekorasi::with('images')->get();
+        return view('admin.cruditem.datadekorasi', compact('dekorasi'));
     }
 
     public function create()
@@ -22,20 +23,16 @@ class DekorasiController extends Controller
         return view('admin.cruditem.datadekorasi');
     }
     
-    
-    
     public function store(Request $request)
     {
-        
-        // Validasi input termasuk gambar thumbnail dan foto dekorasi
         $request->validate([
             'nama_dekorasi' => 'required|string|max:255',
-            'thumbnail_dekorasi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi file gambar thumbnail
-            'foto_dekorasi.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi file gambar untuk foto dekorasi
+            'thumbnail_dekorasi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'foto_dekorasi.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' 
         ]);
 
         if ($request->hasFile('thumbnail_dekorasi')) {
-            $thumbnailPath = $request->file('thumbnail_dekorasi')->store('dekorasi_thumbnails', 'public'); // Simpan di folder storage/app/public/dekorasi_thumbnails
+            $thumbnailPath = $request->file('thumbnail_dekorasi')->store('dekorasi_thumbnails', 'public'); 
         }
         
         $dekorasi = Dekorasi::create([
@@ -56,7 +53,6 @@ class DekorasiController extends Controller
             }
         }
 
-        // Redirect ke halaman admin dengan pesan sukses
         return redirect('admin/datadekorasi')->with('success', 'Item berhasil ditambahkan');
     }
 
@@ -94,25 +90,64 @@ class DekorasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Dekorasi $dekorasi)
+    public function show($id)
     {
-        return view('admin.cruditem.datadekorasi', compact('dekorasi'));
+        $dekorasi = Dekorasi::with('images')->findOrFail($id);
+        return response()->json($dekorasi);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Dekorasi $dekorasi)
+    public function edit($id)
     {
-        //
+        $selectedDekorasi = Dekorasi::with('images')->findOrFail($id);
+        $dekorasi = Dekorasi::all();
+        return view('admin.cruditem.datadekorasi', compact('dekorasi', 'selectedDekorasi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Dekorasi $dekorasi)
+    public function update(Request $request, $id)
     {
-        //
+        $dekorasi = Dekorasi::findOrFail($id);
+
+        $dekorasi->update([
+            'nama_dekorasi' => $request->nama_dekorasi,
+            'deskripsi_dekorasi' => $request->deskripsi_dekorasi,
+            'harga_dekorasi' => $request->harga_dekorasi
+        ]);
+
+        if ($request->hasFile('thumbnail_dekorasi')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_dekorasi')->store('dekorasi_thumbnails', 'public');
+            $dekorasi->update(['thumbnail_dekorasi' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_dekorasi')) 
+        {
+            foreach ($request->file('foto_dekorasi') as $file) {
+                $fotoPath = $file->store('dekorasi_images', 'public');
+                dekorasiImage::create([
+                    'dekorasi_id' => $dekorasi->id_dekorasi,
+                    'foto_dekorasi' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_dekorasi')) 
+        {
+            foreach ($request->delete_foto_dekorasi as $imageId) {
+                $image = dekorasiImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_dekorasi);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'dekorasi berhasil diperbarui.');
     }
 
     /**

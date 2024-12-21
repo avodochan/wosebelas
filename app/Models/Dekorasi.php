@@ -33,6 +33,6 @@ class Dekorasi extends Model
     
     public function images()
     {
-        return $this->hasMany(DekorasiImage::class, 'dekorasi_id    ', 'id_dekorasi');
+        return $this->hasMany(DekorasiImage::class, 'dekorasi_id', 'id_dekorasi');
     }
 }

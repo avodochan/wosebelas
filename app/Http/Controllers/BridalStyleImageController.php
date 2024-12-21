@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\BridalStyleImage;
+use App\Models\ItemBridalStyle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class BridalStyleImageController extends Controller
 {
@@ -11,8 +14,8 @@ class BridalStyleImageController extends Controller
      */
     public function index()
     {
-        $bridalStyleImages = BridalStyleImage::all();
-        return view('admin.cruditem.databridalstyle', compact('bridalStyleImages'));
+        $bridalStyleImg = BridalStyleImage::with('images')->get();
+        return view('admin.cruditem.itembridalstyle', compact('bridalStyleImg'));
     } 
     
     public function create()
@@ -22,45 +25,43 @@ class BridalStyleImageController extends Controller
 
     public function store(Request $request)
     {
+        // dd ($request);
         $request->validate([
             'nama_pakaian' => 'required|string|max:255',
-            'foto_paket.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
-        $tnbridalstyle = [];
-        if($request->hasFile('thumbnail_bridalstyle')){
-            foreach($request->file('thumbnail_bridalstyle') as $foto){
-                $paths = $foto->store('thumbnail_bridal_style_images', 'public');
-                $tnbridalstyle[] = $paths;
-            }
+        if ($request->hasFile('thumbnail_bridalstyle')) {
+            $thitembridalstyle = $request->file('thumbnail_bridalstyle')->store('bridalstyle_thumbnails', 'public'); 
         }
-
-        $foto_paths = [];
-        if($request->hasFile('foto_paket')){
-            foreach($request->file('foto_paket') as $foto){
-                $path = $foto->store('bridal_style_images', 'public');
-                $foto_paths[] = $path;
-            }
-        }
-
-        BridalStyleImage::create([
+        
+        $bridalStyleImg = BridalStyleImage::create([
             'nama_pakaian' => $request->nama_pakaian,
-            'thumbnail_bridalstyle' => json_encode($tnbridalstyle),
-            'foto_paket' => json_encode($foto_paths),
+            'thumbnail_bridalstyle' => $thitembridalstyle ?? null, 
+            
         ]);
+    
+        if ($request->hasFile('foto_paket')) {
+            $files = $request->file('foto_paket');
+            foreach ($files as $file) {
+                $fotoPath = $file->store('bridalstyle_images', 'public');
+    
+                ItemBridalStyle::create([
+                    'bridalstyle_item_id' => $bridalStyleImg->id_bridalStyleImage, 
+                    'foto_paket' => $fotoPath,
+                ]);
+            }
+        }
         
 
-        return redirect('admin/databridalstyle')->with('success', 'Data berhasil disimpan');
+        return redirect('admin/itembridalstyle')->with('success', 'Data berhasil disimpan');
     }
-
-
 
     /**
      * Display the specified resource.
      */
     public function show(BridalStyleImage $bridalStyleImage)
     {
-        return view('admin.cruditem.databridalstyle', compact('bridalStyleImage')); 
+        return view('admin.cruditem.databridalstyle', compact('bridalStyleImg')); 
     }
 
 
@@ -76,19 +77,43 @@ class BridalStyleImageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BridalStyleImage $bridalStyleImage)
+    public function update(Request $request, BridalStyleImage $bridalStyleImage, $id)
     {
-        $request->validate([
-            'nama_pakaian' => 'required|string|max:255',
-            'foto_pakaian' => 'required',
-        ]);
+        $bridalStyleImg = BridalStyleImage::findOrFail($id);
 
-        $bridalStyleImage->update([
+        $bridalStyleImg->update([
             'nama_pakaian' => $request->nama_pakaian,
-            'foto_pakaian' => $request->foto_pakaian,
         ]);
 
-        return redirect('admin/databridalstyle')->with('success', 'Data berhasil disimpan');
+        if ($request->hasFile('thumbnail_bridalstyle')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_bridalstyle')->store('bridalstyle_thumbnails', 'public'); 
+            $bridalStyleImg->update(['thumbnail_bridalstyle' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_paket')) 
+        {
+            foreach ($request->file('foto_paket') as $file) {
+                $fotoPath = $file->store('bridalStyleImg_images', 'public');
+                ItemBridalStyle::create([
+                    'bridalstyle_item_id' => $id,
+                    'foto_paket' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_paket')) 
+        {
+            foreach ($request->delete_foto_paket as $imageId) {
+                $image = ItemBridalStyle::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_paket);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect('admin/itembridalstyle')->with('success', 'Data berhasil disimpan');
     }
 
     /**

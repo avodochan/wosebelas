@@ -49,8 +49,7 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column">Nama Dekorasi</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="cth : Paket Pengantin Jawa" name="nama_dekorasi">
+                                                <input type="text" class="form-control" name="nama_dekorasi">
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-12">
@@ -66,8 +65,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp</span>
                                                     </div>
-                                                    <input type="text" placeholder="cth : 8000000"
-                                                        class="form-control" name="harga_dekorasi">
+                                                    <input type="text" class="form-control" name="harga_dekorasi">
                                                 </div>
                                             </div>
                                         </div>
@@ -75,14 +73,14 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="city-column">Foto Thumbnail Dekorasi</label>
-                                                <input type="file" name="thumbnail_dekorasi" accept="image/*">
+                                                <input type="file" name="thumbnail_dekorasi" accept="image/*" class="form-control">
                                             </div>
                                         </div>
                                         
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="city-column">Foto Dekorasi</label>
-                                                <input type="file" name="foto_dekorasi[]" multiple accept="image/*">
+                                                <input type="file" name="foto_dekorasi[]" multiple accept="image/*" class="form-control">
                                             </div>
                                         </div>
 
@@ -120,94 +118,116 @@
                                     </tr>
                                 </thead>
 
-                                @forelse ($dekor as $d)
+                                @forelse ($dekorasi as $dekorasi)
                                     <tr>
-                                        <td>{{ $d->id_dekorasi }}</td>
-                                        <td>{{ $d->nama_dekorasi }}</td>
-                                        <td>Rp {{ $d->harga_dekorasi }}</td>
+                                        <td>{{ $dekorasi->id_dekorasi }}</td>
+                                        <td>{{ $dekorasi->nama_dekorasi }}</td>
+                                        <td>Rp {{ number_format($dekorasi->harga_dekorasi, 0, ',', '.') }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                                data-bs-target="#info">
-                                                <i class="bi bi-eye-fill"></i></button>
-                                            <button type="button" class="btn btn-outline-warning"
-                                                data-bs-toggle="modal" data-bs-target="#warning">
-                                                <i class="bi bi-pencil-square"></i></button>
-
-                                            {{-- detail --}}
-                                            <div class="modal fade text-left" id="info" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel130" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-info">
-                                                            <h5 class="modal-title white" id="myModalLabel130">Info
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <img src="{{ asset('storage/' . $d->thumbnail_dekorasi) }}" alt="Dekorasi Thumbnail">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-info ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{-- edit --}}
-                                            <div class="modal fade text-left" id="warning" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-warning">
-                                                            <h5 class="modal-title white" id="myModalLabel140">Warning
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Tart lemon drops macaroon oat cake chocolate toffee
-                                                            chocolate
-                                                            bar icing. Pudding jelly beans
-                                                            carrot cake pastry gummies cheesecake lollipop. I love
-                                                            cookie
-                                                            lollipop cake I love sweet
-                                                            gummi bears cupcake dessert.
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-warning ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $dekorasi->id_dekorasi }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $dekorasi->id_dekorasi }}">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>                                        
                                         </td>
+                                        
+                                         {{-- detail --}}
+                                        <div class="modal fade" id="detailModal{{ $dekorasi->id_dekorasi }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $dekorasi->id_dekorasi }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="detailModalLabel{{ $dekorasi->id_dekorasi }}">Detail {{ $dekorasi->nama_dekorasi }}</h3>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="{{ asset('storage/' . $dekorasi->thumbnail_dekorasi) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail dekorasi">
+                                                                <h6 class="mt-3">Foto Lainnya:</h6>
+                                                                <div class="d-flex flex-wrap">
+                                                                    @foreach ($dekorasi->images as $image)
+                                                                        <img src="{{ asset('storage/' . $image->foto_dekorasi) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto dekorasi">
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-6">
+                                                                <h6>Harga:</h6>
+                                                                <p>{{ number_format($dekorasi->harga_dekorasi, 0, ',', '.') }}</p>
+                                                                <h6>Deskripsi:</h6>
+                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($dekorasi->deskripsi_dekorasi))) !!}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {{-- edit --}}
+                                        <div class="modal fade" id="editModal{{ $dekorasi->id_dekorasi }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Edit dekorasi</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('dekorasi.update', $dekorasi->id_dekorasi ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="{{ asset('storage/' . $dekorasi->thumbnail_dekorasi) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail dekorasi">
+                                                                    <div class="mt-2">
+                                                                        @foreach ($dekorasi->images as $image)
+                                                                        <div class="d-flex align-items-center mb-2">
+                                                                            <img src="{{ asset('storage/' . $image->foto_dekorasi) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto dekorasi">
+                                                                            <input type="checkbox" name="delete_foto_dekorasi[]" value="{{ $image->id }}" class="form-check-input">
+                                                                            <label class="form-check-label ms-2">Hapus</label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @isset($dekorasi)
+                                                                <div class="form-group mb-3">
+                                                                    <label>Nama dekorasi</label>
+                                                                    <input type="text" name="nama_dekorasi" class="form-control" value="{{ $dekorasi->nama_dekorasi }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Deskripsi</label>
+                                                                    <textarea name="deskripsi_dekorasi" class="form-control" rows="3">{{ $dekorasi->deskripsi_dekorasi }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Harga dekorasi</label>
+                                                                    <input type="text" name="harga_dekorasi" class="form-control" value="{{ $dekorasi->harga_dekorasi }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Thumbnail</label>
+                                                                    <input type="file" name="thumbnail_dekorasi" class="form-control">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Foto Lainnya</label>
+                                                                    <input type="file" name="foto_dekorasi[]" multiple class="form-control">
+                                                                    
+                                                                </div>
+                                                            @else
+                                                                <p>Data tidak ditemukan.</p>
+                                                            @endisset
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </tr>
                                     @empty
                                     <tr>

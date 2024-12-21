@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Hiburan;
 use App\Models\HiburanImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class HiburanController extends Controller
 {
@@ -13,7 +15,7 @@ class HiburanController extends Controller
      */
     public function index()
     {
-        $hiburan = Hiburan::all();
+        $hiburan = Hiburan::with('images')->get();
         return view('admin.cruditem.datahiburan', compact('hiburan'));
     }
 
@@ -30,30 +32,33 @@ class HiburanController extends Controller
      */
     public function store(Request $request)
     { 
+        // dd ($request->fthumbnail_hiburan);
+        $request->validate([
+            'nama_paket_hiburan' => 'required|string|max:255',
+            'deskripsi_hiburan' => 'required|string|max:255',
+            'harga_sewa_hiburan' => 'required|numeric',
+        ]);
+        
+        if ($request->hasFile('fthumbnail_hiburan')) {
+            $thhiburan = $request->file('fthumbnail_hiburan')->store('hiburan_thumbnails', 'public'); 
+        }
+        
         $hiburan = Hiburan::create([
             'nama_paket_hiburan' => $request->nama_paket_hiburan,
             'deskripsi_hiburan' => $request->deskripsi_hiburan,
             'harga_sewa_hiburan' => $request->harga_sewa_hiburan,
+            'thumbnail_hiburan' => $thhiburan ?? null, 
+            
         ]);
-
-        if ($request->hasFile('thumbnail_hiburan')) {
-            $files = $request->file('thumbnail_hiburan');
-            foreach ($files as $image) {
-                $tnhiburan = $image->storeAs('thumbnail_hiburan _images', 'public');
-                HiburanImage::create([
-                    'hiburan_id' => $hiburan->id_hiburan,
-                    'thumbnail_hiburan' => $tnhiburan
-                ]);
-            }
-        }
-        
+    
         if ($request->hasFile('foto_hiburan')) {
             $files = $request->file('foto_hiburan');
-            foreach ($files as $image) {
-                $fhiburan = $image->storeAs('hiburan _images', 'public');
+            foreach ($files as $file) {
+                $fotoPath = $file->store('hiburan_images', 'public');
+    
                 HiburanImage::create([
-                    'hiburan_id' => $hiburan->id_hiburan,
-                    'foto_hiburan' => $fhiburan
+                    'hiburan_id' => $hiburan->id_hiburan, 
+                    'foto_hiburan' => $fotoPath,
                 ]);
             }
         }
@@ -72,18 +77,57 @@ class HiburanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Hiburan $hiburan)
+    public function edit($id)
     {
-        //
+        $selectedHiburan = Hiburan::with('images')->findOrFail($id);
+        $hiburan = Hiburan::all();
+        return view('admin.cruditem.datahiburan', compact('hiburan', 'selectedHiburan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hiburan $hiburan)
+    public function update(Request $request, $id)
     {
-        //
+        $hiburan = Hiburan::findOrFail($id);
+
+        $hiburan->update([
+            'nama_paket_hiburan' => $request->nama_paket_hiburan,
+            'deskripsi_hiburan' => $request->deskripsi_hiburan,
+            'harga_sewa_hiburan' => $request->harga_sewa_hiburan
+        ]);
+
+        if ($request->hasFile('thumbnail_hiburan')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_hiburan')->store('hiburan_thumbnails', 'public');
+            $hiburan->update(['thumbnail_hiburan' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_hiburan')) 
+        {
+            foreach ($request->file('foto_hiburan') as $file) {
+                $fotoPath = $file->store('hiburan_images', 'public');
+                hiburanImage::create([
+                    'hiburan_id' => $hiburan->id_hiburan,
+                    'foto_hiburan' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_hiburan')) 
+        {
+            foreach ($request->delete_foto_hiburan as $imageId) {
+                $image = hiburanImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_hiburan);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'hiburan berhasil diperbarui.');
     }
+
 
     /**
      * Remove the specified resource from storage.

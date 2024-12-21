@@ -38,19 +38,8 @@
                     <br>
                     <div class="card">
                         <div class="card-body">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                                        aria-controls="home" aria-selected="true">Tambah Paket</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="tambahitem-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                                        aria-controls="profile" aria-selected="false">Tambah Item</a>
-                                </li>
-                            </ul>
                             <div class="tab-content" id="myTabContent">
-                                
-                            {{-- tambah paket --}}
+                            
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <form action="{{ route('souvenir.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
@@ -82,6 +71,12 @@
                                                         </div>
                                                     </div>                                                    
                                                 </div>
+                                                <div class="col-md-12 col-12">
+                                                    <div class="form-group">
+                                                        <label for="first-name-column">Thumbnail Souvenir</label>
+                                                        <input type="file" class="form-control" name="thumbnail_souvenir">
+                                                    </div>
+                                                </div>
                                             <br>
                                             </div>
                                             
@@ -112,339 +107,132 @@
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                
-                                                @forelse($souvenir as $s)
-                                                    <tr>
-                                                        <td>{{ $s->id_souvenir }}</td>
-                                                        <td>{{ $s->nama_paket_souvenir }}</td>
-                                                        <td>Rp {{ $s->harga_paket_souvenir }}</td>
-                                                        <td>
-                                                                
-                                                                <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter">
-                                                                    <i class="bi bi-eye-fill"></i>
-                                                                </button>
-                                                                
-                                                                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#warning">
-                                                                    <i class="bi bi-pencil-square"></i></button>    
-                                                                
-                                                                {{-- detail --}}
-                                                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                                                        role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $s->nama_paket_bridalstyle }}
-                                                                                </h5>
-                                                                                <button type="button" class="close" data-bs-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <i data-feather="x"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <p>
-                                                                                    {{ $s->deskripsi_paket }}
-                                                                                    {{ $s->foto_paket }}  
-                                                                               </p>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-light-secondary"
-                                                                                    data-bs-dismiss="modal">
-                                                                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                                                                    <span class="d-none d-sm-block">Close</span>
-                                                                                </button>
-                                                                                <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
-                                                                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                                                                    <span class="d-none d-sm-block">Accept</span>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                {{-- edit --}}
-                                                                <div class="modal fade text-left" id="warning" tabindex="-1" role="dialog"
-                                                                        aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                                            role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header bg-warning">
-                                                                                    <h5 class="modal-title white" id="myModalLabel140">Warning Modal
-                                                                                    </h5>
-                                                                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                        <i data-feather="x"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    Tart lemon drops macaroon oat cake chocolate toffee chocolate
-                                                                                    bar icing. Pudding jelly beans
-                                                                                    carrot cake pastry gummies cheesecake lollipop. I love cookie
-                                                                                    lollipop cake I love sweet
-                                                                                    gummi bears cupcake dessert.
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-light-secondary"
-                                                                                        data-bs-dismiss="modal">
-                                                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                                                        <span class="d-none d-sm-block">Close</span>
-                                                                                    </button>
-                            
-                                                                                    <button type="button" class="btn btn-warning ms-1"
-                                                                                        data-bs-dismiss="modal">
-                                                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                                                        <span class="d-none d-sm-block">Accept</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                </div>
-                                                        </td>
-                                                    </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="4" style="text-align: center">Tidak ada data ditemukan</td>
-                                                        </tr>
-                                                @endforelse
-                                                
-                                            </table>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            {{-- tambah item --}}
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <form action="{{ route('souvenirImage.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <br>
-                                                <div id="imagePreview" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                                    <!-- Preview images will be displayed here -->
-                                                </div>
-                                            </div>
-                                            
-                                            {{-- form --}}
-                                            <form action="{{ route('souvenirImage.store') }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="col-8">
-                                                    <br>
-                                                    
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-6">
-                                                            <label for="first-name-column">Kategori Souvenir</label>
-                                                            <fieldset class="form-group">
-                                                                <select class="form-select" id="basicSelect">
-                                                                    <option disabled selected></option>   
-                                                                    <option value ="premium">Premium</option>
-                                                                    <option value ="standar">Standar</option>
-                                                                </select>   
-                                                            </fieldset>
-                                                        </div>  
-                                                        
-                                                        <div class="col-md-6 col-6">
-                                                            <div class="form-group">
-                                                                <label for="nama_souvenir">Nama Souvenir</label>
-                                                                <input type="text" name="nama_souvenir" id="nama_souvenir" class="form-control" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-md-12 col-12">
-                                                        <div class="form-group">
-                                                            <label for="city-column">Foto Thumbnail Souvenir</label>
-                                                            <input type="file" name="thumbnail_souvenir" accept="image/*">
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-md-12 col-12">
-                                                        <div class="form-group">
-                                                            <label for="city-column">Foto Souvenir</label>
-                                                            <input type="file" name="foto_souvenir[]" id="foto_souvenir" class="form-control" multiple accept="image/*">                                                    <br>
-                                                    </div>
-                                                    
-                                                    <div class="col-12 d-flex justify-content-end">
-                                                        <button type="submit" class="btn btn-primary me-1 mb-1" id="submitbs">Submit</button>
-                                                        <button type="reset" class="btn btn-light-secondary me-1 mb-1" id="resetBtn">Reset</button>
-                                                    </div>
-                                                    <br>
-                                                </div>
-                                    </form>
-                                            
-                                            <script>
-                                                document.getElementById('foto_paket').addEventListener('change', function() {
-                                                const imagePreview = document.getElementById('imagePreview');
-                                                imagePreview.innerHTML = ''; // Bersihkan preview sebelumnya
-
-                                                const files = this.files;
-
-                                                if (files) {
-                                                    Array.from(files).forEach(file => {
-                                                        const reader = new FileReader();
-
-                                                        reader.onload = function(e) {
-                                                            const img = document.createElement('img');
-                                                            img.src = e.target.result;
-                                                            img.style.maxWidth = '50px';
-                                                            img.style.maxHeight = '50px';
-                                                            img.style.margin = '5px';
-                                                            imagePreview.appendChild(img);
-                                                        }
-
-                                                        reader.readAsDataURL(file); // Konversi file ke base64
-                                                    });
-                                                }
-                                                });
-
-                                                // Reset preview ketika form direset
-                                                document.getElementById('resetBtn').addEventListener('click', function() {
-                                                    const imagePreview = document.getElementById('imagePreview');
-                                                    imagePreview.innerHTML = ''; // Bersihkan preview gambar
-                                                });
-
-                                            </script>
-                                            
-                                        </div>
-                                    </form>
-                                    
-                                    <br>
-                                    <hr>
-                                    <br>
-                                    
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h5>
-                                                Data Item
-                                            </h5>
-                                            <br>
-                                            <table class="table table-striped" id="table1">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Kategori</th>
-                                                        <th>Nama Souvenir</th>
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                
                                                 <tbody>
-                                                    @forelse($souvenirImage as $si)
                                                     <tr>
-                                                        <td>{{ $si->id_souvenirImage }}</td>
-                                                        <td>{{ $si->nama_souvenir}}</td>
-                                                        <td>
-                                                                
-                                                                <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter">
-                                                                    <i class="bi bi-eye-fill"></i>
+                                                    @forelse ($souvenir as $souvenir)
+                                                        <tr>
+                                                            <td>{{ $souvenir->id_souvenir }}</td>
+                                                            <td>{{ $souvenir->nama_paket_souvenir }}</td>
+                                                            <td>Rp {{ number_format($souvenir->harga_paket_souvenir, 0, ',', '.') }}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $souvenir->id_souvenir }}">
+                                                                    <i class="bi bi-eye"></i>
                                                                 </button>
-                                                                
-                                                                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#warning">
-                                                                    <i class="bi bi-pencil-square"></i></button>    
-                                                                
-                                                                {{-- detail --}}
-                                                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $bridalStyle->nama_paket_bridalstyle }}</h5>
-                                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                                                    <i data-feather="x"></i>
-                                                                                </button>
+                                                                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $souvenir->id_souvenir }}">
+                                                                    <i class="bi bi-pencil-square"></i>
+                                                                </a>                                        
+                                                            </td>
+                                                            
+                                                            {{-- detail --}}
+                                                            <div class="modal fade" id="detailModal{{ $souvenir->id_souvenir }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $souvenir->id_souvenir }}" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h3 class="modal-title" id="detailModalLabel{{ $souvenir->id_souvenir }}">Detail {{ $souvenir->nama_paket_souvenir }}</h3>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    <img src="{{ asset('storage/' . $souvenir->thumbnail_souvenir) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail souvenir">
+                                                                                </div>
+                                                                                
+                                                                                <div class="col-6">
+                                                                                    <h6>Harga:</h6>
+                                                                                    <p>{{ number_format($souvenir->harga_paket_souvenir, 0, ',', '.') }}</p>
+                                                                                    <h6>Deskripsi:</h6>
+                                                                                    <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($souvenir->deskripsi_paket_souvenir))) !!}</p>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="modal-body">
-                                                                                <p>{{ $s->deskripsi_paket }}</p>
-
-                                                                                <!-- Decode dan looping foto_paket -->
-                                                                                @if($s->foto_paket)
-                                                                                    @php
-                                                                                        $fotoArray = json_decode($s->foto_paket); // Decode JSON ke array
-                                                                                    @endphp
-                                                                                    @foreach($fotoArray as $foto)
-                                                                                        <div>
-                                                                                            <img src="{{ asset('storage/' . $foto) }}" alt="Foto Paket" style="width: 100%; margin-bottom: 10px;">
-                                                                                        </div>
-                                                                                    @endforeach
-                                                                                @endif
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                                                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                                                                    <span class="d-none d-sm-block">Close</span>
-                                                                                </button>
-                                                                                <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
-                                                                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                                                                    <span class="d-none d-sm-block">Accept</span>
-                                                                                </button>
-                                                                            </div>
+                                                                        </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-
-                                                                
-                                                                {{-- edit --}}
-                                                                <div class="modal fade text-left" id="warning" tabindex="-1" role="dialog"
-                                                                        aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                                            role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header bg-warning">
-                                                                                    <h5 class="modal-title white" id="myModalLabel140">Warning Modal
-                                                                                    </h5>
-                                                                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                        <i data-feather="x"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    Tart lemon drops macaroon oat cake chocolate toffee chocolate
-                                                                                    bar icing. Pudding jelly beans
-                                                                                    carrot cake pastry gummies cheesecake lollipop. I love cookie
-                                                                                    lollipop cake I love sweet
-                                                                                    gummi bears cupcake dessert.
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-light-secondary"
-                                                                                        data-bs-dismiss="modal">
-                                                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                                                        <span class="d-none d-sm-block">Close</span>
-                                                                                    </button>
-                            
-                                                                                    <button type="button" class="btn btn-warning ms-1"
-                                                                                        data-bs-dismiss="modal">
-                                                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                                                        <span class="d-none d-sm-block">Accept</span>
-                                                                                    </button>
+                                                            </div>
+                                                            
+                                                            {{-- edit --}}
+                                                            <div class="modal fade" id="editModal{{ $souvenir->id_souvenir }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="editModalLabel">Edit souvenir</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <form action="{{ route('souvenir.update', $souvenir->id_souvenir ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <div class="modal-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-6">
+                                                                                        <img src="{{ asset('storage/' . $souvenir->thumbnail_souvenir) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail souvenir">
+                                                                                        <div class="mt-2">
+                                                                                            @foreach ($souvenir->images as $image)
+                                                                                            <div class="d-flex align-items-center mb-2">
+                                                                                                <img src="{{ asset('storage/' . $image->foto_souvenir) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto souvenir">
+                                                                                                <input type="checkbox" name="delete_foto_souvenir[]" value="{{ $image->id }}" class="form-check-input">
+                                                                                                <label class="form-check-label ms-2">Hapus</label>
+                                                                                            </div>
+                                                                                        @endforeach
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        @isset($souvenir)
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label>Nama souvenir</label>
+                                                                                        <input type="text" name="nama_paket_souvenir" class="form-control" value="{{ $souvenir->nama_paket_souvenir }}">
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label>Deskripsi</label>
+                                                                                        <textarea name="deskripsi_paket_souvenir" class="form-control" rows="3">{{ $souvenir->deskripsi_paket_souvenir }}</textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label>Harga souvenir</label>
+                                                                                        <input type="text" name="harga_paket_souvenir" class="form-control" value="{{ $souvenir->harga_paket_souvenir }}">
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label>Thumbnail Souvenir</label>
+                                                                                        <input type="file" name="thumbnail_souvenir" class="form-control">
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label>Foto Lainnya</label>
+                                                                                        <input type="file" name="foto_souvenir[]" multiple class="form-control">
+                                                                                        
+                                                                                    </div>
+                                                                                @else
+                                                                                    <p>Data tidak ditemukan.</p>
+                                                                                @endisset
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
-                                                        </td>
-                                                    </tr>
-                                                    @empty
+                                                            </div>
+                                                            
+                                                        </tr>
+                                                        @empty
                                                         <tr>
                                                             <td colspan="4" style="text-align: center">Tidak ada data ditemukan</td>
                                                         </tr>
-                                                @endforelse
+                                                        
+                                                    @endforelse
+                                                    </tr>
                                                 </tbody>
                                                 
-                                                
                                             </table>
                                             
                                         </div>
                                     </div>
-                                    
                                 </div>
-                                
                             </div>
-                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
                 
-
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">

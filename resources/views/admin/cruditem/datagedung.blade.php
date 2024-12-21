@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Dekorasi</title>
+    <title>Data Gedung</title>
     <link rel="shortcut icon" href="{{ asset('/assets/admin/admintl/assets/compiled/svg/favicon.svg') }}"
         type="image/x-icon">
     <link rel="shortcut icon"
@@ -50,8 +50,7 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column">Nama Gedung</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="cth : Paket Pengantin Jawa" name="nama_gedung">
+                                                <input type="text" class="form-control" name="nama_gedung">
                                             </div>
                                         </div>
                                         
@@ -80,9 +79,8 @@
                                         <div class="col-md-4 col-4">
                                             <div class="form-group">
                                                 <label for="first-name-column">Kapasitas Gedung</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="cth : Paket Pengantin Jawa" name="kapasitas_gedung">
-                                            </div>
+                                                <input type="text" class="form-control"name="kapasitas_gedung">
+                                            </div> 
                                         </div>
                                         
                                         <div class="col-md-12 col-12">
@@ -106,8 +104,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp</span>
                                                     </div>
-                                                    <input type="text" placeholder="cth : 8000000"
-                                                        class="form-control" name="harga_sewa_gedung">
+                                                    <input type="text" class="form-control" name="harga_sewa_gedung">
                                                 </div>
                                             </div>
                                         </div>
@@ -146,7 +143,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                Data Dokumentasi
+                                Data Gedung
                             </h5>
                         </div>
                         <div class="card-body">
@@ -154,100 +151,146 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nama Paket</th>
+                                        <th>Nama Gedung</th>
                                         <th>Harga</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
 
-                                @forelse ($gedung as $ged)
+                                @forelse ($gedung as $gedung)
                                     <tr>
-                                        <td>{{ $ged->id_gedung }}</td>
-                                        <td>{{ $ged->nama_gedung }}</td>
-                                        <td>Rp {{ $ged->harga_sewa_gedung }}</td>
+                                        <td>{{ $gedung->id_gedung }}</td>
+                                        <td>{{ $gedung->nama_gedung }}</td>
+                                        <td>Rp {{ number_format($gedung->harga_sewa_gedung, 0, ',', '.') }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                                data-bs-target="#info">
-                                                <i class="bi bi-eye-fill"></i></button>
-                                            <button type="button" class="btn btn-outline-warning"
-                                                data-bs-toggle="modal" data-bs-target="#warning">
-                                                <i class="bi bi-pencil-square"></i></button>
-
-                                            {{-- detail --}}
-                                            <div class="modal fade text-left" id="info" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel130" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-info">
-                                                            <h5 class="modal-title white" id="myModalLabel130">Info
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ $ged->foto_gedung }}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-info ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{-- edit --}}
-                                            <div class="modal fade text-left" id="warning" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-warning">
-                                                            <h5 class="modal-title white" id="myModalLabel140">Warning
-                                                                Modal
-                                                            </h5>
-                                                            <button type="button" class="close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <i data-feather="x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Tart lemon drops macaroon oat cake chocolate toffee
-                                                            chocolate
-                                                            bar icing. Pudding jelly beans
-                                                            carrot cake pastry gummies cheesecake lollipop. I love
-                                                            cookie
-                                                            lollipop cake I love sweet
-                                                            gummi bears cupcake dessert.
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-warning ms-1"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $gedung->id_gedung }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $gedung->id_gedung }}">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>                                        
                                         </td>
+                                        
+                                        {{-- detail --}}
+                                        <div class="modal fade" id="detailModal{{ $gedung->id_gedung }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $gedung->id_gedung }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="detailModalLabel{{ $gedung->id_gedung }}">Detail {{ $gedung->nama_gedung }}</h3>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="{{ asset('storage/' . $gedung->thumbnail_gedung) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail gedung">
+                                                                <h6 class="mt-3">Foto Lainnya:</h6>
+                                                                <div class="d-flex flex-wrap">
+                                                                    @foreach ($gedung->images as $image)
+                                                                        <img src="{{ asset('storage/' . $image->foto_gedung) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto gedung">
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-6">
+                                                                <h6>Harga:</h6>
+                                                                <p>{{ number_format($gedung->harga_sewa_gedung, 0, ',', '.') }}</p>
+                                                                <h6>Deskripsi:</h6>
+                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($gedung->deskripsi_gedung))) !!}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+                                        {{-- edit --}}
+                                        <div class="modal fade" id="editModal{{ $gedung->id_gedung }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Edit gedung</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('gedung.update', $gedung->id_gedung ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="{{ asset('storage/' . $gedung->thumbnail_gedung) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail gedung">
+                                                                    <div class="mt-2">
+                                                                        @foreach ($gedung->images as $image)
+                                                                        <div class="d-flex align-items-center mb-2">
+                                                                            <img src="{{ asset('storage/' . $image->foto_gedung) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto gedung">
+                                                                            <input type="checkbox" name="delete_foto_gedung[]" value="{{ $image->id }}" class="form-check-input">
+                                                                            <label class="form-check-label ms-2">Hapus</label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @isset($gedung)
+                                                                <div class="form-group mb-3">
+                                                                    <label>Nama gedung</label>
+                                                                    <input type="text" name="nama_gedung" class="form-control" value="{{ $gedung->nama_gedung }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="first-name-column">Tipe Gedung</label>
+                                                                    <select class="form-select" name="tipe_gedung"  value="{{ $gedung->tipe_gedung }}">
+                                                                         <option value disabled></option>
+                                                                         <option value="indoor">Indoor</option>
+                                                                         <option value="outdoor">Outdoor</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="first-name-column">Kapasitas Gedung</label>
+                                                                    <input type="text" class="form-control" name="kapasitas_gedung" value="{{ $gedung->kapasitas_gedung }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="first-name-column">Alamat Gedung</label>
+                                                                    <textarea class="form-control" rows="2" name="alamat_gedung">{{ $gedung->alamat_gedung }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Harga gedung</label>
+                                                                    <input type="text" name="harga_sewa_gedung" class="form-control" value="{{ $gedung->harga_sewa_gedung }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="first-name-column">Status Gedung</label>
+                                                                    <select class="form-select" name="status_gedung"value="{{ $gedung->status_gedung }}">
+                                                                         <option value disabled></option>
+                                                                         <option value="tersedia">Tersedia</option>
+                                                                         <option value="tidak_tersedia">Tidak Tersedia</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Deskripsi</label>
+                                                                    <textarea name="deskripsi_gedung" class="form-control" rows="3">{{ $gedung->deskripsi_gedung }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Thumbnail</label>
+                                                                    <input type="file" name="thumbnail_gedung" class="form-control">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Foto Lainnya</label>
+                                                                    <input type="file" name="foto_gedung[]" multiple class="form-control">
+                                                                    
+                                                                </div>
+                                                            @else
+                                                                <p>Data tidak ditemukan.</p>
+                                                            @endisset
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </tr>
                                     @empty
                                     <tr>

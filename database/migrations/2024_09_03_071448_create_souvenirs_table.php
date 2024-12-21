@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_paket_souvenir');
             $table->string('deskripsi_paket_souvenir');
             $table->integer('harga_paket_souvenir');
+            $table->string('thumbnail_souvenir')->nullable();
             $table->timestamps();
         });
     }

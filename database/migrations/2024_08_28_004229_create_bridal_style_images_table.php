@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id_bridalStyleImage')->primary();
             $table->string('nama_pakaian');
             $table->string('thumbnail_bridalstyle')->nullable();
-            $table->json('foto_paket');
+            $table->json('foto_paket')->nullable();
             $table->timestamps();
         });
     }

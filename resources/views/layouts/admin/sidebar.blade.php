@@ -47,119 +47,159 @@ $currentUrl = basename($_SERVER['REQUEST_URI'], ".php");
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
                 
-                <li class="sidebar-item <?php echo $currentUrl == 'dashboard' ? 'active' : ''; ?>">
-                    <a href="dashboard" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                
-                <li class="sidebar-title">Transaksi</li>
-                
-                <li class="sidebar-item has-sub <?php echo in_array($currentUrl, ['extra-component-avatar', 'extra-component-divider', 'extra-component-date-picker']) ? 'active' : ''; ?>">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-collection-fill"></i>
-                        <span>Pemesanan</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item <?php echo $currentUrl == 'extra-component-avatar' ? 'active' : ''; ?>">
-                            <a href="pendingorder" class="submenu-link">Pending Order</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'extra-component-divider' ? 'active' : ''; ?>">
-                            <a href="ongoingorder" class="submenu-link">Ongoing Order</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'extra-component-date-picker' ? 'active' : ''; ?>">
-                            <a href="historiorder" class="submenu-link">Histori Order</a>
-                        </li>
-                    </ul>
-                </li>
-                
-                <li class="sidebar-item <?php echo $currentUrl == 'index' ? 'active' : ''; ?>">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Pembayaran</span>
-                    </a>
-                </li>
-                
-                <li class="sidebar-item <?php echo $currentUrl == 'index' ? 'active' : ''; ?>">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Invoice</span>
-                    </a>
-                </li>
-                
-                <li class="sidebar-title">Data Master & Laporan</li>
-                
-                <li class="sidebar-item has-sub <?php echo in_array($currentUrl, ['databridalstyle', 'datadekorasi', 'datadokumentasi', 'datagedung', 'datahiburan', 'datadishes', 'datamaincourse', 'datasouvenir', 'dataundangan']) ? 'active' : ''; ?>">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-hexagon-fill"></i>
-                        <span>Master Data</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item <?php echo $currentUrl == 'databridalstyle' ? 'active' : ''; ?>">
-                            <a href="databridalstyle" class="submenu-link">Data Bridal Style</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'datadekorasi' ? 'active' : ''; ?>">
-                            <a href="datadekorasi" class="submenu-link">Data Dekorasi</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'datadokumentasi' ? 'active' : ''; ?>">
-                            <a href="datadokumentasi" class="submenu-link">Data Dokumentasi</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'datagedung' ? 'active' : ''; ?>">
-                            <a href="datagedung" class="submenu-link">Data Gedung</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'datahiburan' ? 'active' : ''; ?>">
-                            <a href="datahiburan" class="submenu-link">Data Hiburan</a>
-                        </li>
-                        <li class="sidebar-item has-sub <?php echo in_array($currentUrl, ['datadishes', 'datamaincourse']) ? 'active' : ''; ?>">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-three-dots"></i>
-                                <span>Data Menu Makanan</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item <?php echo $currentUrl == 'itemmaincourse' ? 'active' : ''; ?>">
-                                    <a href="/admin/itemmaincourse">Item Maincourse</a>
-                                </li>
-                                <li class="submenu-item <?php echo $currentUrl == 'itemdishes' ? 'active' : ''; ?>">
-                                    <a href="/admin/datadishes">Item Dishes</a>
-                                </li>
-                                <li class="submenu-item <?php echo $currentUrl == 'datamaincourse' ? 'active' : ''; ?>">
-                                    <a href="/admin/datamaincourse">Paket</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'datasouvenir' ? 'active' : ''; ?>">
-                            <a href="datasouvenir" class="submenu-link">Data Souvenir</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'dataundangan' ? 'active' : ''; ?>">
-                            <a href="dataundangan" class="submenu-link">Data Undangan</a>
-                        </li>
-                    </ul>
-                </li>
-                
-                <li class="sidebar-item has-sub <?php echo in_array($currentUrl, ['form-element-input', 'form-element-input-group', 'form-element-select', 'form-element-radio', 'form-element-checkbox']) ? 'active' : ''; ?>">
-                    <a class='sidebar-link'>
-                        <i class="bi bi-hexagon-fill"></i>
-                        <span>Pengelolaan Laporan</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item <?php echo $currentUrl == 'form-element-input' ? 'active' : ''; ?>">
-                            <a href="form-element-input.html" class="submenu-link">Laporan Pemasukan</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'form-element-input-group' ? 'active' : ''; ?>">
-                            <a href="form-element-input-group.html" class="submenu-link">Laporan Grafik Bulanan</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'form-element-select' ? 'active' : ''; ?>">
-                            <a href="form-element-select.html" class="submenu-link">Laporan Pending Order</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'form-element-radio' ? 'active' : ''; ?>">
-                            <a href="form-element-radio.html" class="submenu-link">Laporan Ongoing Order</a>
-                        </li>
-                        <li class="submenu-item <?php echo $currentUrl == 'form-element-checkbox' ? 'active' : ''; ?>">
-                            <a href="form-element-checkbox.html" class="submenu-link">Laporan Histori Order</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="sidebar-item <?php echo $currentUrl == 'dashboard' ? 'active' : ''; ?>">
+                        <a href="dashboard" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-title">Transaksi</li>
+                    
+                    <li class="sidebar-item has-sub <?php echo in_array($currentUrl, ['pendingorder', 'ongoingorder','confirmedorder', 'successorder', 'historiorder']) ? 'active' : ''; ?>">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-collection-fill"></i>
+                            <span>Pemesanan</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="submenu-item <?php echo $currentUrl == 'pendingorder' ? 'active' : ''; ?>">
+                                <a href="/admin/pendingorder" class="submenu-link">Pending Order</a>
+                            </li>
+                            <li class="submenu-item <?php echo $currentUrl == 'confirmedorder' ? 'active' : ''; ?>">
+                                <a href="/admin/confirmedorder" class="submenu-link">Confirmed Order</a>
+                            </li>
+                            <li class="submenu-item <?php echo $currentUrl == 'ongoingorder' ? 'active' : ''; ?>">
+                                <a href="/admin/ongoingorder" class="submenu-link">Ongoing Order</a>
+                            </li>
+                            <li class="submenu-item <?php echo $currentUrl == 'successorder' ? 'active' : ''; ?>">
+                                <a href="/admin/successorder" class="submenu-link">Success Order</a>
+                            </li>
+                            <li class="submenu-item <?php echo $currentUrl == 'historiorder' ? 'active' : ''; ?>">
+                                <a href="/admin/histori" class="submenu-link">History Order</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="sidebar-item <?php echo $currentUrl == 'pembayaran' ? 'active' : 'pembayaran'; ?>">
+                        <a href="pembayaran" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Pembayaran</span>
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-item <?php echo $currentUrl == 'showinvoice' ? 'active' : 'showinvoice'; ?>">
+                        <a href="showinvoice" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Invoice</span>
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-title">Data Master & Laporan</li>
+                    <li class="sidebar-item  has-sub <?php echo in_array($currentUrl, ['databridalstyle', 'itembridalstye', 'datamaincourse', 'itemmaincourse', 'datadishes', 'datadekorasi', 'datadokumentasi', 'datagedung', 'datahiburan', 'datasouvenir', 'itemsouvenir', 'dataundangan']) ? 'active' : ''; ?>">
+                        <a class='sidebar-link' >
+                            <i class="bi bi-three-dots"></i>
+                            <span>Master Data</span>
+                        </a>
+                        
+                        {{-- master data --}}
+                        <ul class="submenu ">
+                            
+                            <li class="submenu-item  has-sub <?php echo in_array($currentUrl, ['databridalstyle', 'itembridalstyle']) ? 'active' : ''; ?>">
+                                <a class="submenu-link">Bridal Style</a>
+                                
+                                <ul class="submenu submenu-level-2 ">
+                                    <li class="submenu-item <?php echo $currentUrl == 'databridalstyle' ? 'active' : ''; ?>" >
+                                        <a href="/admin/databridalstyle" class="submenu-link">Bridal Style Paket</a>
+                                    </li>
+                                    
+                                    <li class="submenu-item <?php echo $currentUrl == 'itembridalstyle' ? 'active' : ''; ?>">
+                                        <a href="/admin/itembridalstyle" class="submenu-link">Bridal Style Item</a>
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                            
+                            <li class="submenu-item  has-sub <?php echo in_array($currentUrl, ['datamaincourse', 'itemmaincourse', 'itemdishes']) ? 'active' : ''; ?>">
+                                <a class="submenu-link">Katering</a>
+                                
+                                <ul class="submenu submenu-level-2 <?php echo $currentUrl == 'datamaincourse' ? 'active' : ''; ?>">
+                                    <li class="submenu-item ">
+                                        <a href="/admin/datamaincourse" class="submenu-link">Paket</a>
+                                    </li>
+                                    
+                                    <li class="submenu-item <?php echo $currentUrl == 'itemmaincourse' ? 'active' : ''; ?>">
+                                        <a href="/admin/itemmaincourse" class="submenu-link">Maincourse Item</a>
+                                    </li>
+                                    
+                                    <li class="submenu-item <?php echo $currentUrl == 'datadishes' ? 'active' : ''; ?>">
+                                        <a href="/admin/datadishes" class="submenu-link">Dishes Item</a>
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                            
+                            <li class="submenu-item <?php echo $currentUrl == 'datadekorasi' ? 'active' : ''; ?>">
+                                <a href="/admin/datadekorasi" class="submenu-link">Dekorasi</a>
+                            </li>
+                            
+                            <li class="submenu-item <?php echo $currentUrl == 'datadokumentasi' ? 'active' : ''; ?>">
+                                <a href="/admin/datadokumentasi" class="submenu-link">Dokumentasi</a>
+                            </li>
+                            
+                            <li class="submenu-item <?php echo $currentUrl == 'datagedung' ? 'active' : ''; ?>">
+                                <a href="/admin/datagedung" class="submenu-link">Gedung</a>
+                            </li>
+                            
+                            <li class="submenu-item <?php echo $currentUrl == 'datahiburan' ? 'active' : ''; ?>">
+                                <a href="/admin/datahiburan" class="submenu-link">Hiburan</a>
+                            </li>
+                            
+                            <li class="submenu-item  has-sub <?php echo in_array($currentUrl, ['datasouvenir', 'itemsouvenir']) ? 'active' : ''; ?>">
+                                <a class="submenu-link">Souvenir</a>
+                                
+                                <ul class="submenu submenu-level-2 <?php echo $currentUrl == 'datasouvenir' ? 'active' : ''; ?>">
+                                    <li class="submenu-item ">
+                                        <a href="/admin/datasouvenir" class="submenu-link">Souvenir Paket</a>
+                                    </li>
+                                    
+                                    <li class="submenu-item <?php echo $currentUrl == 'itemsouvenir' ? 'active' : ''; ?>">
+                                        <a href="/admin/itemsouvenir" class="submenu-link">Souvenir Item</a>
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                            
+                            <li class="submenu-item <?php echo $currentUrl == 'dataundangan' ? 'active' : ''; ?>">
+                                <a href="/admin/dataundangan" class="submenu-link">Undangan</a>
+                            </li>
+                            
+                        </ul>
+                        
+                    </li>
+                    
+                    <li class="sidebar-title">Laporan</li>
+                    <li class="sidebar-item  has-sub <?php echo in_array($currentUrl, ['pemasukan']) ? 'active' : ''; ?>">
+                        <a class='sidebar-link' >
+                            <i class="bi bi-three-dots"></i>
+                            <span>Laporan</span>
+                        </a>
+                        
+                        {{-- laporan --}}
+                        <ul class="submenu ">
+                            
+                            <li class="submenu-item  has-sub <?php echo in_array($currentUrl, ['pemasukan']) ? 'active' : ''; ?>">
+                                <a class="submenu-link">Laporan</a>
+                                
+                                <ul class="submenu submenu-level-2 ">
+                                    <li class="submenu-item <?php echo $currentUrl == 'pemasukan' ? 'active' : ''; ?>" >
+                                        <a href="#" class="submenu-link">Laporan Pemasukan</a>
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                        </ul>
+                    </li>
+                    
             </ul>
         </div>
     </div>

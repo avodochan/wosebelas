@@ -15,6 +15,7 @@ class BridalStyle extends Model
         'nama_paket_bridalstyle',
         'deskripsi_paket',
         'harga_paket',
+        'thumbnail_bridalstyle'
     ];
     
     protected static function boot() 
@@ -28,8 +29,5 @@ class BridalStyle extends Model
         });  
     }
     
-    public function images()
-    {
-        return $this->hasMany(BridalStyleImage::class, 'bridalstyle_id', 'id_bridalstyle');
-    }
+    
 }

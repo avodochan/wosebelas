@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
@@ -12,8 +13,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view ('client.profile.datapribadi');
+        $customer = Customer::where('user_id', Auth::id())->first();
+        return view('client.profile.datapribadi', compact('customer'));
     }
+
     
     public function showhistori()
     {
@@ -27,10 +30,6 @@ class CustomerController extends Controller
     {
         return view('client.profile.datapribadi'); 
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -55,10 +54,6 @@ class CustomerController extends Controller
         return redirect('/datadiri')->with('success', 'Data diri berhasil disimpan!');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
@@ -75,10 +70,28 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email,' . $id . ',id_customer',
+            'no_telepon' => 'required|string|max:20',
+            'nik' => 'required|string|max:16',
+            'gender' => 'required|string',
+            'alamat' => 'required|string',
+        ]);
+
+        $customer = Customer::find($id);
+
+        if (!$customer) {
+            return redirect('/datadiri')->with('error', 'Data tidak ditemukan.');
+        }
+
+        $customer->update($request->only(['nama', 'email', 'no_telepon', 'nik', 'gender', 'alamat']));
+
+        return redirect('/datadiri')->with('success', 'Data diri berhasil diperbarui!');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -87,4 +100,11 @@ class CustomerController extends Controller
     {
         //
     }
+    
+    public function histori()
+    {
+        $orders = Order::where('user_id', Auth::user()->id)->get();
+        return view('client.profile.historiorder', compact('orders'));
+    }
+
 }

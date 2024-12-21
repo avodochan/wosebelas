@@ -85,7 +85,7 @@ class BookingController extends Controller
     {
         $gedungs = Gedung::all(); 
         $gedungss = GedungImage::all();
-        return view('client.bookinggedung', ['gedungs' => $gedungs], ['gedungss' => $gedungss]);
+        return view('client.detail.detailgedung', ['gedungs' => $gedungs], ['gedungss' => $gedungss]);
     }
     
     public function getAvailableGedung($tanggal)

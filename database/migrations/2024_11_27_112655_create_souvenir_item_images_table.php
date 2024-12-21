@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pilihan_sayas', function (Blueprint $table) {
+        Schema::create('souvenir_item_images', function (Blueprint $table) {
             $table->id();
+            $table->string('souvenir_item_id')->constrained()->onDelete('cascade');
+            $table->string('thumbnail_souvenir')->nullable();
+            $table->string('foto_souvenir')->nullable();;
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pilihan_sayas');
+        Schema::dropIfExists('souvenir_item_images');
     }
 };

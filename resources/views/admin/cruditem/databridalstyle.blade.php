@@ -39,20 +39,7 @@
                     <br>
                     <div class="card">
                         <div class="card-body">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                                        aria-controls="home" aria-selected="true">Tambah Paket</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="tambahitem-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                                        aria-controls="profile" aria-selected="false">Tambah Item</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                
-                            {{-- tambah paket --}}
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        
                                     <form action="{{ route('bridal-styles.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
@@ -83,6 +70,13 @@
                                                         </div>
                                                     </div>                                                    
                                                 </div>
+                                                <div class="col-md-12 col-12">
+                                                    <div class="form-group">
+                                                        <label for="first-name-column">Thumbnail Bridalstyle</label>
+                                                        <input type="file" class="form-control"
+                                                            name="thumbnail_bridalstyle">
+                                                    </div>
+                                                </div>
                                             <br>
                                             </div>
                                             
@@ -91,20 +85,25 @@
                                                     <button type="submit" class="btn btn-primary me-1 mb-1" id="submitbs">Submit</button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1" id="resetBtn">Reset</button>
                                                 </div>
-                                            
                                         </div>
                                     </form>
-                                    <br>
-                                    <hr>
-                                    <br>
-                                    
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    Data Paket Bridal Style
+                                </h5>
+                                <hr>
+                            </div>
+                            <div class="card-body">
                                     {{-- show data --}}
                                     <div class="row">
                                         <div class="col-12">
-                                            <h5>
-                                                Data Paket
-                                            </h5>
-                                            <br>
                                             <table class="table table-striped" id="table1">
                                                 <thead>
                                                     <tr>
@@ -121,364 +120,103 @@
                                                         <td>{{ $bridalStyle->nama_paket_bridalstyle }}</td>
                                                         <td>Rp {{ $bridalStyle->harga_paket }}</td>
                                                         <td>
-                                                                
-                                                                <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter">
-                                                                    <i class="bi bi-eye-fill"></i>
-                                                                </button>
-                                                                
-                                                                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#warning">
-                                                                    <i class="bi bi-pencil-square"></i></button>    
-                                                                
-                                                                {{-- detail --}}
-                                                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                                                        role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header bg-primary">
-                                                                                <h5 class="modal-title white" id="exampleModalCenter">Detail {{ $bridalStyle->nama_paket_bridalstyle }}
-                                                                                </h5>
-                                                                                <button type="button" class="close" data-bs-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <i data-feather="x" style="color: white"></i>
-                                                                                </button>
+                                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $bridalStyle->id_bridalstyle }}">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $bridalStyle->id_bridalstyle }}">
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </a>                                        
+                                                        </td>
+                                                        
+                                                        {{-- detail --}}
+                                                        <div class="modal fade" id="detailModal{{ $bridalStyle->id_bridalstyle }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $bridalStyle->id_bridalstyle }}" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h3 class="modal-title" id="detailModalLabel{{ $bridalStyle->id_bridalstyle }}">Detail {{ $bridalStyle->nama_paket_bridalStyle }}</h3>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-6">
+                                                                                <img src="{{ asset('storage/' . $bridalStyle->thumbnail_bridalstyle) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail bridalStyle">
                                                                             </div>
-                                                                            <div class="modal-body">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12">
-                                                                                        <h6>Nama Paket :</h6>
-                                                                                        <p>{{ $bridalStyle->nama_paket_bridalstyle }}</p>
-                                                                                        <br>
-                                                                                        <h6>Harga :</h6>
-                                                                                        <p>Rp {{ $bridalStyle->harga_paket }}</p>
-                                                                                        <br>
-                                                                                        <h6>Deskripsi :</h6>
-                                                                                        <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($bridalStyle->deskripsi_paket))) !!}
-                                                                                            {{ $bridalStyle->foto_paket }} </p>
-                                                                                    </div>
-                                                                                    
-                                                                                </div>
+                                                                            
+                                                                            <div class="col-6">
+                                                                                <h6>Harga:</h6>
+                                                                                <p>{{ number_format($bridalStyle->harga_paket, 0, ',', '.') }}</p>
+                                                                                <h6>Deskripsi:</h6>
+                                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($bridalStyle->deskripsi_paket))) !!}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    </div>
                                                                 </div>
-                                                                
-                                                                {{-- edit --}}
-                                                                <div class="modal fade" id="warning" tabindex="-1" role="dialog"
-                                                                        aria-labelledby="myModalLabel140" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                                                        role="document">
-                                                                            <div class="modal-content">
-                                                                                
-                                                                                <div class="modal-header bg-primary">
-                                                                                    <h5 class="modal-title white" id="myModalLabel140">Edit Data {{ $bridalStyle->nama_paket_bridalstyle }} 
-                                                                                    </h5>
-                                                                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                        <i data-feather="x" style="color: white"></i>
-                                                                                    </button>
+                                                        </div>
+                                                        
+                                                        {{-- edit --}}
+                                                        <div class="modal fade" id="editModal{{ $bridalStyle->id_bridalstyle }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editModalLabel">Edit bridalStyle</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <form action="{{ route('bridal-styles.update', $bridalStyle->id_bridalstyle ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    <img src="{{ asset('storage/' . $bridalStyle->thumbnail_bridalstyle) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail bridalStyle">
+                                                                                    
                                                                                 </div>
-                                                                                
-                                                                                <div class="modal-body">
-                                                                                    <form action="{{ route('bridalStyle.update', $bridalStyle->id_bridalstyle) }}" method="POST">
-                                                                                        @csrf
-                                                                                        @method('PUT')
-                                                                                        <div class="row">
-                                                                                            <div class="form-group">
-                                                                                                <label for="nama_paket_bridalstyle">Nama Paket</label>
-                                                                                                <input type="text" name="nama_paket_bridalstyle" class="form-control" value="{{ $bridalStyle->nama_paket_bridalstyle }}">
-                                                                                            </div>
-                                                                                        
-                                                                                            <div class="form-group">
-                                                                                                <label for="deskripsi_paket">Deskripsi Paket</label>
-                                                                                                <textarea name="deskripsi_paket" class="form-control">{{ $bridalStyle->deskripsi_paket }}</textarea>
-                                                                                            </div>
-                                                                                        
-                                                                                            <div class="form-group">
-                                                                                                <label for="harga_paket">Harga Paket</label>
-                                                                                                <input type="number" name="harga_paket" class="form-control" value="{{ $bridalStyle->harga_paket }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <br>
-                                                                                        
-                                                                                        <div class="d-flex justify-content-end">
-                                                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                                                        </div>
-                                                                                        
-                                                                                    </form>
+                                                                                <div class="col-6">
+                                                                                    @isset($bridalStyle)
+                                                                                <div class="form-group mb-3">
+                                                                                    <label>Nama bridalStyle</label>
+                                                                                    <input type="text" name="nama_paket_bridalstyle" class="form-control" value="{{ $bridalStyle->nama_paket_bridalstyle }}">
                                                                                 </div>
-                                                                                
+                                                                                <div class="form-group mb-3">
+                                                                                    <label>Deskripsi</label>
+                                                                                    <textarea name="deskripsi_paket" class="form-control" rows="3">{{ $bridalStyle->deskripsi_paket }}</textarea>
+                                                                                </div>
+                                                                                <div class="form-group mb-3">
+                                                                                    <label>Harga bridalStyle</label>
+                                                                                    <input type="text" name="harga_paket" class="form-control" value="{{ $bridalStyle->harga_paket }}">
+                                                                                </div>
+                                                                                <div class="form-group mb-3">
+                                                                                    <label>Thumbnail</label>
+                                                                                    <input type="file" name="thumbnail_bridalstyle" class="form-control">
+                                                                                </div>
+                                                                            @else
+                                                                                <p>Data tidak ditemukan.</p>
+                                                                            @endisset
+                                                                                </div>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                        </td>
+                                                            </div>
+                                                        </div>
                                                     </tr>
                                                     @empty
                                                         <tr>
                                                             <td colspan="4" style="text-align: center">Tidak ada data ditemukan</td>
                                                         </tr>
                                                 @endforelse
-                                                        
-                                                
                                             </table>
                                             
                                         </div>
-                                    </div>
-                                </div>
-                                
-                            {{-- tambah item --}}
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <form action="{{ route('bridal-styleImage.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <br>
-                                                <label for="first-name-column">Foto Thumbnail</label>
-                                                <div id="ThumbnailPreview" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                                </div>
-                                                
-                                                <label for="first-name-column">Foto Pakaian</label>
-                                                <div id="imagePreview" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                                </div>
-                                                
-                                            </div>
-                                            
-                                            {{-- form --}}
-                                            <div class="col-8">
-                                                <br>
-                                                <div class="col-md-12 col-12">
-                                                    <div class="form-group">
-                                                        <label for="first-name-column">Nama Pakaian</label>
-                                                        <input type="text" name="nama_pakaian" id="nama_pakaian" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12 col-12">
-                                                    <div class="form-group">
-                                                        <label for="city-column">Thumbnail Pakaian</label>
-                                                        <input type="file" name="thumbnail_bridalstyle" id="thumbnail_bridalstyle" class="form-control" accept="image/*">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12 col-12">
-                                                    <div class="form-group">
-                                                        <label for="city-column">Foto Pakaian</label>
-                                                        <input type="file" name="foto_paket[]" id="foto_paket" class="form-control" multiple accept="image/*">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-1 mb-1" id="submitbs">Submit</button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1" id="resetBtn">Reset</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    
-                                    <!-- Script untuk preview thumbnail -->
-                                    <script>
-                                        document.getElementById('thumbnail_bridalstyle').addEventListener('change', function() {
-                                            const ThumbnailPreview = document.getElementById('ThumbnailPreview');
-                                            ThumbnailPreview.innerHTML = ''; // Bersihkan preview sebelumnya
-                                    
-                                            const files = this.files;
-                                    
-                                            if (files) {
-                                                Array.from(files).forEach(file => {
-                                                    const reader = new FileReader();
-                                    
-                                                    reader.onload = function(e) {
-                                                        const img = document.createElement('img');
-                                                        img.src = e.target.result;
-                                                        img.style.maxWidth = '50px';
-                                                        img.style.maxHeight = '50px';
-                                                        img.style.margin = '5px';
-                                                        ThumbnailPreview.appendChild(img); // Menggunakan ThumbnailPreview
-                                                    }
-                                    
-                                                    reader.readAsDataURL(file); // Konversi file ke base64
-                                                });
-                                            }
-                                        });
-                                    
-                                        // Reset preview ketika form direset
-                                        document.getElementById('resetBtn').addEventListener('click', function() {
-                                            const ThumbnailPreview = document.getElementById('ThumbnailPreview');
-                                            ThumbnailPreview.innerHTML = ''; // Bersihkan preview gambar
-                                        });
-                                    </script>
-                                    
-                                    <!-- Script untuk preview foto pakaian -->
-                                    <script>
-                                        document.getElementById('foto_paket').addEventListener('change', function() {
-                                            const imagePreview = document.getElementById('imagePreview');
-                                            imagePreview.innerHTML = ''; // Bersihkan preview sebelumnya
-                                    
-                                            const files = this.files;
-                                    
-                                            if (files) {
-                                                Array.from(files).forEach(file => {
-                                                    const reader = new FileReader();
-                                    
-                                                    reader.onload = function(e) {
-                                                        const img = document.createElement('img');
-                                                        img.src = e.target.result;
-                                                        img.style.maxWidth = '50px';
-                                                        img.style.maxHeight = '50px';
-                                                        img.style.margin = '5px';
-                                                        imagePreview.appendChild(img); // Menggunakan imagePreview
-                                                    }
-                                    
-                                                    reader.readAsDataURL(file); // Konversi file ke base64
-                                                });
-                                            }
-                                        });
-                                    
-                                        // Reset preview ketika form direset
-                                        document.getElementById('resetBtn').addEventListener('click', function() {
-                                            const imagePreview = document.getElementById('imagePreview');
-                                            imagePreview.innerHTML = ''; // Bersihkan preview gambar
-                                        });
-                                    </script>
-                                    
-                                    
-                                    <br>
-                                    <hr>
-                                    <br>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5>
-                                                Data Paket
-                                            </h5>
-                                            <br>
-                                            <table class="table table-striped" id="table1">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Nama Pakaian</th>
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                
-                                                @forelse($bridalStyleImages as $bs)
-                                                    <tr>
-                                                        <td>{{ $bs->id_bridalStyleImage }}</td>
-                                                        <td>{{ $bs->nama_pakaian }}</td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
-                                                                data-bs-target="#detail_item">
-                                                                <i class="bi bi-eye-fill"></i>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#edit_item">
-                                                                <i class="bi bi-pencil-square"></i>
-                                                            </button>    
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="4" style="text-align: center">Tidak ada data ditemukan</td>
-                                                    </tr>
-                                                @endforelse
-                                                
-                                                {{-- detail --}}
-                                                <div class="modal fade" id="detail_item" tabindex="-1" role="dialog"
-                                                    aria-labelledby="detail_item" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                                        role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-primary">
-                                                            <h5 class="modal-title white" id="detail_item">Detail
-                                                            </h5>
-                                                            <button type="button" class="close" data-bs-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <i data-feather="x" style="color: white"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                                                    <div class="carousel-inner">
-                                                                        <div class="carousel-item active">
-                                                                            <img src="./assets/compiled/jpg/banana.jpg" class="d-block w-100" alt="lorem ipsum">
-                                                                        </div>
-                                                                        <div class="carousel-item">
-                                                                            <img src="./assets/compiled/jpg/bg-mountain.jpg" class="d-block w-100" alt="lorem ipsum">
-                                                                        </div>
-                                                                    </div>
-                                                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-                                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                        <span class="visually-hidden">Previous</span>
-                                                                    </a>
-                                                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-                                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                        <span class="visually-hidden">Next</span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="h6" style="text-align: center">
-                                                                </div>
-                                                                
-                                                            </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                
-                                                {{-- edit --}}
-                                                <div class="modal fade" id="edit_item" tabindex="-1" role="dialog"
-                                                   aria-labelledby="edit_item" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                                        role="document">
-                                                            <div class="modal-content">
-                                                               <div class="modal-header bg-primary">
-                                                                    <h5 class="modal-title white" id="edit_item">Edit Data</h5>
-                                                                        <button type="button" class="close" data-bs-dismiss="modal"
-                                                                            aria-label="Close">
-                                                                            <i data-feather="x" style="color: white"></i>
-                                                                        </button>
-                                                                                </div>
-                                                                                
-                                                                                <div class="modal-body">
-                                                                                    <form action="" method="POST">
-                                                                                        @csrf
-                                                                                        @method('PUT')
-                                                                                        <div class="row">
-                                                                                            <div class="form-group">
-                                                                                                <label for="nama_paket_bridalstyle">Foto Pakaian</label>
-                                                                                                <input type="file" name="nama_pakaian" class="form-control" value="">
-                                                                                                {{-- <img src="{{ asset('storage/'. $bridalStyle->foto_paket)}}" alt="Foto Paket"> --}}
-                                                                                            </div>
-                                                                                            
-                                                                                            <div class="form-group">
-                                                                                                <label for="nama_paket_bridalstyle">Nama Pakaian</label>
-                                                                                                <input type="text" name="nama_pakaian" class="form-control" value="">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <br>
-                                                                                        
-                                                                                        <div class="d-flex justify-content-end">
-                                                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                                                        </div>
-                                                                                        
-                                                                                    </form>
-                                                                                </div>
-                                                                                
-                                                                            </div>
-                                                   </div>
-                                                </div>
-                                                
-                                            </table>
-                                            
                                     </div>
                             </div>
                         </div>
                     </div>
-                
-
+                </div>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">

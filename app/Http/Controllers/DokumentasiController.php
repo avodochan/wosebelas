@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dokumentasi;
 use App\Models\DokumentasiImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DokumentasiController extends Controller
 {
@@ -13,7 +14,7 @@ class DokumentasiController extends Controller
      */
     public function index()
     {
-        $dokumentasi = Dokumentasi::all();
+        $dokumentasi = Dokumentasi::with('images')->get();
         return view('admin.cruditem.datadokumentasi', compact('dokumentasi'));
     }
 
@@ -37,31 +38,26 @@ class DokumentasiController extends Controller
             'deskripsi_dokumentasi' => 'required|string|max:255',
             'harga_dokumentasi' => 'required|numeric',
         ]);
-    
-        // Proses penyimpanan file thumbnail
+
         if ($request->hasFile('thumbnail_dokumentasi')) {
-            $thdokumentasi = $request->file('thumbnail_dokumentasi')->store('dokumentasi_thumbnails', 'public'); // Simpan di folder storage/app/public/dekorasi_thumbnails
+            $thdokumentasi = $request->file('thumbnail_dokumentasi')->store('dokumentasi_thumbnails', 'public'); 
         }
     
-        // Buat data dekorasi terlebih dahulu agar dapat menggunakan id_dekorasi-nya
         $dokumentasi = Dokumentasi::create([
             'nama_paket_dokumentasi' => $request->nama_paket_dokumentasi,
             'jenis_dokumentasi' => $request->jenis_dokumentasi,
             'deskripsi_dokumentasi' => $request->deskripsi_dokumentasi,
             'harga_dokumentasi' => $request->harga_dokumentasi,
-            'thumbnail_dokumentasi' => $thdokumentasi ?? null, // Simpan path file thumbnail
+            'thumbnail_dokumentasi' => $thdokumentasi ?? null, 
         ]);
     
-        // Proses penyimpanan file foto_dekorasi jika ada
         if ($request->hasFile('foto_dokumentasi')) {
             $files = $request->file('foto_dokumentasi');
             foreach ($files as $file) {
-                // Simpan masing-masing file foto_dekorasi ke direktori
                 $fotoDokumentasiPath = $file->store('dokumentasi_images', 'public');
     
-                // Simpan path foto_dekorasi ke database dalam tabel dekorasi_images
                 DokumentasiImage::create([
-                    'dokumentasi_id' => $dokumentasi->id_dokumentasi, // Gunakan id_dekorasi dari data yang baru dibuat
+                    'dokumentasi_id' => $dokumentasi->id_dokumentasi, 
                     'foto_dokumentasi' => $fotoDokumentasiPath,
                 ]);
             }
@@ -81,17 +77,55 @@ class DokumentasiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Dokumentasi $dokumentasi)
+    public function edit($id)
     {
-        //
+        $selectedDokumentasi = Dokumentasi::with('images')->findOrFail($id);
+        $dokumentasi = Dokumentasi::all();
+        return view('admin.cruditem.datadokumentasi', compact('dokumentasi', 'selectedDokumentasi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Dokumentasi $dokumentasi)
+    public function update(Request $request, $id)
     {
-        //
+        $dokumentasi = Dokumentasi::findOrFail($id);
+
+        $dokumentasi->update([
+            'nama_paket_dokumentasi' => $request->nama_paket_dokumentasi,
+            'deskripsi_dokumentasi' => $request->deskripsi_dokumentasi,
+            'harga_dokumentasi' => $request->harga_dokumentasi
+        ]);
+
+        if ($request->hasFile('thumbnail_dokumentasi')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_dokumentasi')->store('dokumentasi_thumbnails', 'public');
+            $dokumentasi->update(['thumbnail_dokumentasi' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_dokumentasi')) 
+        {
+            foreach ($request->file('foto_dokumentasi') as $file) {
+                $fotoPath = $file->store('dokumentasi_images', 'public');
+                dokumentasiImage::create([
+                    'dokumentasi_id' => $dokumentasi->id_dokumentasi,
+                    'foto_dokumentasi' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_dokumentasi')) 
+        {
+            foreach ($request->delete_foto_dokumentasi as $imageId) {
+                $image = dokumentasiImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_dokumentasi);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'dokumentasi berhasil diperbarui.');
     }
 
     /**

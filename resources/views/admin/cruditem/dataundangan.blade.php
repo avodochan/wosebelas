@@ -36,7 +36,7 @@
                         <div class="col-12"> 
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Tambah Data Undangan</h4>
+                                    <h4 class="card-title">Tambah Data undangan</h4>
                                     <hr>
                                 </div>
                                     <div class="card-body">
@@ -46,28 +46,28 @@
                                                 
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-column">Nama Undangan</label>
+                                                        <label for="first-name-column">Nama undangan</label>
                                                         <input type="text" class="form-control" name="nama_undangan">
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-column">Bahan Undangan</label>
+                                                        <label for="first-name-column">Bahan undangan</label>
                                                         <input type="text" class="form-control" name="bahan_undangan">
                                                     </div>
                                                 </div>
                                             
                                                 <div class="col-md-12 col-12">
                                                         <div class="form-group mb-3">
-                                                            <label for="first-name-column">Deskripsi Undangan</label>
+                                                            <label for="first-name-column">Deskripsi undangan</label>
                                                             <textarea class="form-control" rows="3" name="deskripsi_undangan"></textarea>
                                                         </div>                                                    
                                                 </div>
                                                 
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
-                                                        <label for="city-column">Harga Undangan</label>
+                                                        <label for="city-column">Harga undangan</label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Rp</span>
@@ -79,15 +79,16 @@
                                                 
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
-                                                        <label for="city-column">Foto Thumbnail Undangan</label>
+                                                        <label for="city-column">Foto Thumbnail undangan</label>
                                                         <input type="file" name="thumbnail_undangan" accept="image/*">
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
-                                                        <label for="city-column">Foto Undangan</label>
-                                                        <input type="file" name="foto_undangan[]" multiple accept="image/*">                                                    </div>
+                                                        <label for="city-column">Foto undangan</label>
+                                                        <input type="file" name="foto_undangan[]" multiple accept="image/*">                                                    
+                                                    </div>
                                                 </div>
                                                 
                                                 
@@ -109,7 +110,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                Data Undangan
+                                Data undangan
                             </h5>
                         </div>
                         <div class="card-body">
@@ -117,26 +118,128 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nama Undangan</th>
-                                        <th>Bahan Undangan</th>
+                                        <th>Nama undangan</th>
+                                        <th>Bahan undangan</th>
                                         <th>Harga</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 
-                                @forelse($undangan as $ud)
+                                @forelse($undangan as $undangan)
                                     <tr>
-                                        <td>{{ $ud->id_undangan }}</td>
-                                        <td>{{ $ud->nama_undangan }}</td>
-                                        <td>{{ $ud->bahan_undangan }}</td>
-                                        <td>Rp {{ $ud->harga_undangan }}</td>
+                                        <td>{{ $undangan->id_undangan }}</td>
+                                        <td>{{ $undangan->nama_undangan }}</td>
+                                        <td>{{ $undangan->bahan_undangan }}</td>
+                                        <td>Rp {{ number_format($undangan->harga_undangan, 0, ',', '.') }}</td>
                                         <td>
-                                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#info">
-                                                    <i class="bi bi-eye-fill"></i></button>
-                                                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#warning">
-                                                    <i class="bi bi-pencil-square"></i></button>    
-                                                
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ $undangan->id_undangan }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $undangan->id_undangan }}">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>                                        
                                         </td>
+                                        
+                                        {{-- detail --}}
+                                        <div class="modal fade" id="detailModal{{ $undangan->id_undangan }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $undangan->id_undangan }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="detailModalLabel{{ $undangan->id_undangan }}">Detail {{ $undangan->nama_undangan }}</h3>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="{{ asset('storage/' . $undangan->thumbnail_undangan) }}" class="img-thumbnail" style="max-width: 315px;" alt="Thumbnail undangan">
+                                                                <h6 class="mt-3">Foto Lainnya:</h6>
+                                                                <div class="d-flex flex-wrap">
+                                                                    @foreach ($undangan->images as $image)
+                                                                        <img src="{{ asset('storage/' . $image->foto_undangan) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto undangan">
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-6">
+                                                                <h6>Harga:</h6>
+                                                                <p>{{ number_format($undangan->harga_undangan, 0, ',', '.') }}</p>
+                                                                <h6>Deskripsi:</h6>
+                                                                <p>{!! str_replace(["\r\n", "\n", "\r"], '', nl2br(e($undangan->deskripsi_undangan))) !!}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+                                        {{-- edit --}}
+                                        <div class="modal fade" id="editModal{{ $undangan->id_undangan }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">Edit undangan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('undangan.update', $undangan->id_undangan ?? '') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="{{ asset('storage/' . $undangan->thumbnail_undangan) }}" class="img-thumbnail mt-2" style="max-width: 315px;" alt="Thumbnail undangan">
+                                                                    <div class="mt-2">
+                                                                        @foreach ($undangan->images as $image)
+                                                                        <div class="d-flex align-items-center mb-2">
+                                                                            <img src="{{ asset('storage/' . $image->foto_undangan) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;" alt="Foto undangan">
+                                                                            <input type="checkbox" name="delete_foto_undangan[]" value="{{ $image->id }}" class="form-check-input">
+                                                                            <label class="form-check-label ms-2">Hapus</label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @isset($undangan)
+                                                                <div class="form-group mb-3">
+                                                                    <label>Nama undangan</label>
+                                                                    <input type="text" name="nama_undangan" class="form-control" value="{{ $undangan->nama_undangan }}">
+                                                                </div>
+                                                                <div class="col-md-12 col-12">
+                                                                    <div class="form-group">
+                                                                        <label for="first-name-column">Bahan undangan</label>
+                                                                        <input type="text" class="form-control" name="bahan_undangan" value="{{ $undangan->bahan_undangan }}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Deskripsi</label>
+                                                                    <textarea name="deskripsi_undangan" class="form-control" rows="3">{{ $undangan->deskripsi_undangan }}</textarea>
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Harga undangan</label>
+                                                                    <input type="text" name="harga_undangan" class="form-control" value="{{ $undangan->harga_undangan }}">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Thumbnail</label>
+                                                                    <input type="file" name="thumbnail_undangan" class="form-control">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label>Foto Lainnya</label>
+                                                                    <input type="file" name="foto_undangan[]" multiple class="form-control">
+                                                                </div>
+                                                            @else
+                                                                <p>Data tidak ditemukan.</p>
+                                                            @endisset
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </tr>
                                     @empty
                                         <tr>

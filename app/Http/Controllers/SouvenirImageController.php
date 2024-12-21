@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Souvenir;
 use App\Models\SouvenirImage;
+use App\Models\SouvenirItemImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SouvenirImageController extends Controller
 {
@@ -13,7 +15,8 @@ class SouvenirImageController extends Controller
      */
     public function index()
     {
-        //
+        $souvenirimg = SouvenirImage::with('images')->get();
+        return view('admin.cruditem.itemsouvenir', compact( 'souvenirimg'));
     }
 
     /**
@@ -28,55 +31,40 @@ class SouvenirImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
-    {
-        // Validasi data yang diterima dari form
-        $request->validate([
+    { 
+         // dd ($request);
+         $request->validate([
             'nama_souvenir' => 'required|string|max:255',
-            'kategori_souvenir' => 'required|string', // Validasi kategori
-            'thumbnail_souvenir' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi file thumbnail
-            'foto_souvenir' => 'required|array', // Pastikan foto souvenir adalah array
-            'foto_souvenir.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi setiap file dalam array
+            'kategori_souvenir' => 'required',
         ]);
-
-        // Buat data souvenir (di tabel induk)
-        $souvenir = Souvenir::create([
+        
+        if ($request->hasFile('thumbnail_souvenir')) {
+            $thsouvenir = $request->file('thumbnail_souvenir')->store('souvenir_thumbnails', 'public'); 
+        }
+        
+        $souvenirimg = SouvenirImage::create([
             'nama_souvenir' => $request->nama_souvenir,
             'kategori_souvenir' => $request->kategori_souvenir,
-            // Tidak menyimpan thumbnail di tabel induk, karena akan masuk ke tabel anak
-        ]);
-
-        // Simpan thumbnail_souvenir ke dalam tabel anak (souvenir_images)
-        if ($request->hasFile('thumbnail_souvenir')) {
-            $thumbnailPath = $request->file('thumbnail_souvenir')->store('souvenir_thumbnails', 'public');
+            'thumbnail_souvenir' => $thsouvenir ?? null, 
             
-            // Simpan thumbnail sebagai entri di tabel souvenir_images
-            SouvenirImage::create([
-                'souvenir_id' => $souvenir->id, // Gunakan ID souvenir dari tabel induk
-                'thumbnail_souvenir' => $thumbnailPath, // Simpan path file thumbnail
-                'foto_souvenir' => null, // Thumbnail tidak memiliki foto
-            ]);
-        }
-
-        // Simpan setiap file foto_souvenir ke dalam tabel anak (souvenir_images)
+        ]);
+    
         if ($request->hasFile('foto_souvenir')) {
             $files = $request->file('foto_souvenir');
             foreach ($files as $file) {
-                $fotoSouvenirPath = $file->store('souvenir_images', 'public');
-                
-                // Simpan foto souvenir sebagai entri di tabel souvenir_images
-                SouvenirImage::create([
-                    'souvenir_id' => $souvenir->id, // Gunakan ID souvenir dari tabel induk
-                    'thumbnail_souvenir' => null, // Tidak ada thumbnail untuk foto
-                    'foto_souvenir' => $fotoSouvenirPath, // Simpan path file foto
+                $fotoPath = $file->store('souvenir_images', 'public');
+    
+                SouvenirItemImage::create([
+                    'souvenir_item_id' => $souvenirimg->id_souvenirImage, 
+                    'foto_souvenir' => $fotoPath,
                 ]);
             }
         }
 
-        return redirect()->back()->with('success', 'Souvenir berhasil ditambahkan');
+        return redirect('admin/itemsouvenir')->with('success', 'Item berhasil ditambahkan');
     }
-
-
 
     /**
      * Display the specified resource.
@@ -89,17 +77,53 @@ class SouvenirImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $selectedSouvenirImg = Souvenir::with('images')->findOrFail($id);
+        $souvenirimg = SouvenirImage::all();
+        return view('admin.cruditem.itemsouvenir', compact('souvenirimg', 'selectedSouvenirImg'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $souvenirimg = SouvenirImage::findOrFail($id);
+
+        $souvenirimg->update([
+            'nama_souvenir' => $request->nama_souvenir,
+            'kategori_souvenir' => $request->kategori_souvenir,
+        ]);
+
+        if ($request->hasFile('thumbnail_souvenir')) 
+        {
+            $thumbnailPath = $request->file('thumbnail_souvenir')->store('souvenir_thumbnails', 'public');
+            $souvenirimg->update(['thumbnail_souvenir' => $thumbnailPath]);
+        }
+
+        if ($request->hasFile('foto_souvenir')) 
+        {
+            foreach ($request->file('foto_souvenir') as $file) {
+                $fotoPath = $file->store('souvenir_images', 'public');
+                SouvenirItemImage::create([
+                    'souvenir_item_id' => $souvenirimg->id_souvenirImage, 
+                    'foto_souvenir' => $fotoPath,
+                ]);
+            }
+        }
+
+        if ($request->has('delete_foto_souvenir')) 
+        {
+            foreach ($request->delete_foto_souvenir as $imageId) {
+                $image = SouvenirItemImage::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->foto_souvenir);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'souvenir berhasil diperbarui.');
     }
 
     /**
